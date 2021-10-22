@@ -14,7 +14,7 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var sendValidationReportToSlackCmd = &cobra.Command{
-	Use:   "send",
+	Use:   "sendreport",
 	Short: "Send Validation Report",
 	Long:  `Send Terraform  validation Report to slack`,
 	Run: func(cmd *cobra.Command, args []string) {

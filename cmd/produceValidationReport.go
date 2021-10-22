@@ -49,7 +49,6 @@ func produceValidationReport(args []string) error {
 	if len(vulnerabilities.Results) > 0 {
 		header := fmt.Sprintf(`{"blocks": [{"type": "header","text": {"type": "plain_text","text": ":cop: Pull Request %v Static Code Analysis Failed :cop:","emoji": true}}`, prNumber)
 		footer := fmt.Sprintf(`,{"type": "divider"},{"type": "section","text": {"type": "mrkdwn","text": "View further details in the pull request:"},"accessory": {"type": "button","text": {"type": "plain_text","text": "View Pull Request","emoji": true},"value": "click_me_123","url": "%v","action_id": "button-action"}}`, repoFullUrl)
-		//noOfVulnerbilities := fmt.Sprintf(`,{"type": "section","text": {"type": "mrkdwn","text": "tfsec has detected %v vulnerabilities in the latest code push."}}`, vulnerabilities.Results)
 		body := fmt.Sprintf("%v%v", header, footer)
 
 		for _, element := range vulnerabilities.Results {
