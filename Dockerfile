@@ -17,7 +17,7 @@ FROM alpine:latest
 WORKDIR /terraform-plan-validator
 
 COPY conf.toml ./conf.toml
-COPY mock.json ./mock.json
+COPY opa-azure-policy.rego ./opa-azure-policy.rego
 
 COPY --from=build /terraform-plan-validator terraform-plan-validator
 COPY --from=build terraform-plan-validator /usr/bin/terraform-plan-validator
