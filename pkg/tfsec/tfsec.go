@@ -8,7 +8,7 @@ import (
 	"github.com/bradmccoydev/terraform-plan-validator/model"
 )
 
-func produceVulnerabilityReport(fileName string, cloudProvider string) string {
+func ProduceVulnerabilityReport(fileName string) model.Vulnerabilities {
 	report, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		fmt.Println(err)
@@ -20,8 +20,8 @@ func produceVulnerabilityReport(fileName string, cloudProvider string) string {
 	if len(vulnerabilities.Results) > 0 {
 		for _, element := range vulnerabilities.Results {
 			fmt.Println(element.Severity)
-			fmt.Println(cloudProvider)
 		}
 	}
-	return "x"
+
+	return vulnerabilities
 }

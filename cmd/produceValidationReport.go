@@ -1,11 +1,11 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 
-	"github.com/bradmccoydev/terraform-plan-validator/model"
+	opa "github.com/bradmccoydev/terraform-plan-validator/pkg/opa"
+	tfsec "github.com/bradmccoydev/terraform-plan-validator/pkg/tfsec"
+
 	"github.com/spf13/cobra"
 )
 
@@ -16,9 +16,10 @@ var produceValidationReportCmd = &cobra.Command{
 	Long:  `Produce Terraform Validation Report`,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := produceValidationReport(args)
-		if err != nil {
-			fmt.Println(err)
-		}
+		return err
+		// if err != nil {
+		// 	fmt.Println(err)
+		// }
 	},
 }
 
@@ -29,32 +30,19 @@ func init() {
 	produceValidationReportCmd.PersistentFlags().StringArrayVar(&reportParams, "payload", reportParams, "slackwebhook")
 }
 
-func produceValidationReport(args []string) error {
-	fileName := args[2]
-	cloudProvider := args[4]
+func produceValidationReport(args []string) bool {
+	fileName := args[0]
+	cloudProvider := args[1]
 
-	//var x = tfsec.produceVulnerabilityReport("x", "t")
-	//fmt.Println(x)
+	tfsecReport := tfsec.ProduceVulnerabilityReport(fileName)
+	fmt.Println(tfsecReport)
 
-	report, err := ioutil.ReadFile(fileName)
-	if err != nil {
-		fmt.Println(err)
+	passesOpa := opa.CheckIfPlanPassesPolicy(fileName, cloudProvider)
+	fmt.Println(passesOpa)
+
+	if passesOpa {
+		return true
 	}
 
-	var vulnerabilities model.Vulnerabilities
-	json.Unmarshal([]byte(report), &vulnerabilities)
-
-	if len(vulnerabilities.Results) > 0 {
-
-		for _, element := range vulnerabilities.Results {
-			fmt.Println(element.Severity)
-			fmt.Println(cloudProvider)
-		}
-	}
-
-	return nil
-}
-
-func produceVulnerabilityReport(fileName, cloudProvider string) {
-	panic("unimplemented")
+	return false
 }

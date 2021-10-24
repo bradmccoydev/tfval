@@ -2,6 +2,8 @@ module github.com/bradmccoydev/terraform-plan-validator
 
 go 1.17
 
+require github.com/open-policy-agent/opa v0.33.1
+
 require (
 	github.com/OneOfOne/xxhash v1.2.8 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
@@ -11,7 +13,6 @@ require (
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
 	github.com/mitchellh/mapstructure v1.4.2 // indirect
-	github.com/open-policy-agent/opa v0.33.1 // indirect
 	github.com/pelletier/go-toml v1.9.4 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20200313005456-10cdbea86bc0 // indirect

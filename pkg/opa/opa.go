@@ -4,15 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 
 	"github.com/open-policy-agent/opa/rego"
 )
 
-func main(fileName string, cloudProvider string) {
+func CheckIfPlanPassesPolicy(plan string, cloudProvider string) bool {
 	policy := "./opa-gcp-policy.rego"
-	if cloudProvider == "Azure" {
-		policy = "./opa-azure-policy.rego"
+	if cloudProvider == "azure" {
+		policy = "opa-azure-policy.rego"
 	}
 
 	r := rego.New(
@@ -25,14 +24,9 @@ func main(fileName string, cloudProvider string) {
 		fmt.Println(err)
 	}
 
-	bs, err := ioutil.ReadFile(fileName)
-	if err != nil {
-		fmt.Println(err)
-	}
-
 	var input interface{}
 
-	if err := json.Unmarshal(bs, &input); err != nil {
+	if err := json.Unmarshal([]byte(plan), &input); err != nil {
 		fmt.Println(err)
 	}
 
@@ -41,5 +35,6 @@ func main(fileName string, cloudProvider string) {
 		fmt.Println(err)
 	}
 
-	fmt.Println(rs[0])
+	return rs.Allowed()
+
 }
