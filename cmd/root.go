@@ -4,8 +4,12 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/bradmccoydev/terraform-plan-validator/config"
 	"github.com/spf13/cobra"
 )
+
+var cfgFile string
+var cfg *config.Config
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -30,5 +34,15 @@ func init() {
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
+	conf, err := config.LoadConfig()
 
+	if err != nil {
+		fmt.Print(err)
+		os.Exit(1)
+	}
+
+	cfg = &config.Config{}
+	cfg.OpaGcpPolicy = conf.OpaGcpPolicy
+	cfg.OpaAzurePolicy = conf.OpaAzurePolicy
+	cfg.OpaAwsPolicy = conf.OpaAwsPolicy
 }

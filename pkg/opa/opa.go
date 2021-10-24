@@ -8,7 +8,7 @@ import (
 	"github.com/open-policy-agent/opa/rego"
 )
 
-func CheckIfPlanPassesPolicy(plan string, cloudProvider string) bool {
+func CheckIfPlanPassesOpaPolicy(plan []byte, cloudProvider string) bool {
 	policy := "./opa-gcp-policy.rego"
 	if cloudProvider == "azure" {
 		policy = "opa-azure-policy.rego"
@@ -26,7 +26,7 @@ func CheckIfPlanPassesPolicy(plan string, cloudProvider string) bool {
 
 	var input interface{}
 
-	if err := json.Unmarshal([]byte(plan), &input); err != nil {
+	if err := json.Unmarshal(plan, &input); err != nil {
 		fmt.Println(err)
 	}
 

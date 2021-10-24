@@ -1,3 +1,3 @@
-"BaseURL" = "https://search365.teamwork.com/"
-"APIToken" = "twp_63AhzDGh681Wb88QWJLw5X7LXJaY"
-"ProjectID" = "370940"
+"OpaGcpPolicy" = "opa-gcp-policy.rego"
+"OpaAzurePolicy" = "opa-azure-policy.rego"
+"OpaAwsPolicy" = "opa-aws-policy.rego"

@@ -7,7 +7,9 @@ import (
 )
 
 type Config struct {
-	BaseURL string
+	OpaGcpPolicy   string
+	OpaAzurePolicy string
+	OpaAwsPolicy   string
 }
 
 func LoadConfig() (*Config, error) {
@@ -24,7 +26,9 @@ func LoadConfig() (*Config, error) {
 	v.SetEnvPrefix("VTT")
 	v.AutomaticEnv()
 
-	v.SetDefault("BaseURL", "<baseurlhere>")
+	v.SetDefault("OpaGcpPolicy", "opa-gcp-policy.rego")
+	v.SetDefault("OpaAzurePolicy", "opa-azure-policy.rego")
+	v.SetDefault("OpaAwsPolicy", "opa-aws-policy.rego")
 
 	err := v.ReadInConfig()
 
@@ -32,7 +36,9 @@ func LoadConfig() (*Config, error) {
 		return nil, err
 	}
 
-	conf.BaseURL = strings.TrimSpace(v.GetString("BaseURL"))
+	conf.OpaGcpPolicy = strings.TrimSpace(v.GetString("OpaGcpPolicy"))
+	conf.OpaAzurePolicy = strings.TrimSpace(v.GetString("OpaAzurePolicy"))
+	conf.OpaAwsPolicy = strings.TrimSpace(v.GetString("OpaAwsPolicy"))
 
 	return conf, nil
 }
