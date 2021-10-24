@@ -4,31 +4,34 @@ import (
 	"fmt"
 	"io/ioutil"
 
+	"github.com/bradmccoydev/terraform-plan-validator/config"
 	opa "github.com/bradmccoydev/terraform-plan-validator/pkg/opa"
 	tfsec "github.com/bradmccoydev/terraform-plan-validator/pkg/tfsec"
 
 	"github.com/spf13/cobra"
 )
 
-// rootCmd represents the base command when called without any subcommands
 var checkifPlanPassesPolicyCmd = &cobra.Command{
-	Use:   "produce",
-	Short: "Produce Validation Report",
-	Long:  `Produce Terraform Validation Report`,
+	Use:   "check",
+	Short: "check If plan passes policy",
+	Long:  `Check if plan passes Policy`,
 	Run: func(cmd *cobra.Command, args []string) {
-		result := checkifPlanPassesPolicy(args)
+		result := checkifPlanPassesPolicy(args, *cfg)
 		fmt.Println(result)
 	},
 }
 
-var reportParams []string
+var planParams []string
 
 func init() {
 	rootCmd.AddCommand(checkifPlanPassesPolicyCmd)
-	checkifPlanPassesPolicyCmd.PersistentFlags().StringArrayVar(&reportParams, "payload", reportParams, "slackwebhook")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringArrayVar(&planParams, "payload", planParams, "slackwebhook")
 }
 
-func checkifPlanPassesPolicy(args []string) bool {
+func checkifPlanPassesPolicy(args []string, cfg config.Config) bool {
+	fmt.Println("&^&")
+	fmt.Println(cfg.OpaAzurePolicy)
+	fmt.Println("&^&")
 	fileName := args[0]
 	cloudProvider := args[1]
 

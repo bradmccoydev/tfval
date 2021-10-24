@@ -27,7 +27,7 @@ func LoadConfig() (*Config, error) {
 	v.AutomaticEnv()
 
 	v.SetDefault("OpaGcpPolicy", "opa-gcp-policy.rego")
-	v.SetDefault("OpaAzurePolicy", "opa-azure-policy.rego")
+	v.SetDefault("OpaAzurePolicy", "opa-azures-policy.rego")
 	v.SetDefault("OpaAwsPolicy", "opa-aws-policy.rego")
 
 	err := v.ReadInConfig()

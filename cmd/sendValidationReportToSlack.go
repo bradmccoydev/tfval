@@ -29,7 +29,7 @@ var validationReportParams []string
 
 func init() {
 	rootCmd.AddCommand(sendValidationReportToSlackCmd)
-	sendSlackMessageCmd.PersistentFlags().StringArrayVar(&reportParams, "payload", validationReportParams, "slackwebhook")
+	sendSlackMessageCmd.PersistentFlags().StringArrayVar(&validationReportParams, "payload", validationReportParams, "slackwebhook")
 }
 
 func sendValidationReportToSlack(args []string) error {
