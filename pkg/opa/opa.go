@@ -5,13 +5,14 @@ import (
 	"encoding/json"
 	"fmt"
 
+	config "github.com/bradmccoydev/terraform-plan-validator/util"
 	"github.com/open-policy-agent/opa/rego"
 )
 
-func CheckIfPlanPassesOpaPolicy(plan []byte, cloudProvider string) bool {
-	policy := "./opa-gcp-policy.rego"
+func CheckIfPlanPassesOpaPolicy(plan []byte, cloudProvider string, cfg config.Config) bool {
+	policy := cfg.OpaGcpPolicy
 	if cloudProvider == "azure" {
-		policy = "opa-azure-policy.rego"
+		policy = cfg.OpaAzurePolicy
 	}
 
 	r := rego.New(

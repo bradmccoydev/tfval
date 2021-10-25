@@ -2,7 +2,10 @@ package opa
 
 import (
 	"fmt"
+	"log"
 	"testing"
+
+	config "github.com/bradmccoydev/terraform-plan-validator/util"
 )
 
 func TestGetOpaScore(t *testing.T) {
@@ -16,7 +19,11 @@ func TestGetOpaScore(t *testing.T) {
 		{"azure", "delete-rg", "{\"format_version\":\"0.2\",\"terraform_version\":\"1.0.7\",\"planned_values\":{\"root_module\":{}},\"resource_drift\":[{\"address\":\"azurerm_resource_group.brad_test\",\"mode\":\"managed\",\"type\":\"azurerm_resource_group\",\"name\":\"brad_test\",\"provider_name\":\"registry.terraform.io/hashicorp/azurerm\",\"change\":{\"actions\":[\"update\"],\"before\":{\"id\":\"/subscriptions/57b482cf-3355-4f0c-8adb-6d6bbb1b2cf7/resourceGroups/brad-test\",\"location\":\"southcentralus\",\"name\":\"brad-test\",\"tags\":null,\"timeouts\":null},\"after\":{\"id\":\"/subscriptions/57b482cf/resourceGroups/brad-test\",\"location\":\"southcentralus\",\"name\":\"brad-test\",\"tags\":{},\"timeouts\":null},\"before_sensitive\":{},\"after_sensitive\":{\"tags\":{}}}}],\"resource_changes\":[{\"address\":\"azurerm_resource_group.brad_test\",\"mode\":\"managed\",\"type\":\"azurerm_resource_group\",\"name\":\"brad_test\",\"provider_name\":\"registry.terraform.io/hashicorp/azurerm\",\"change\":{\"actions\":[\"delete\"],\"before\":{\"id\":\"/subscriptions/57b482cf/resourceGroups/brad-test\",\"location\":\"southcentralus\",\"name\":\"brad-test\",\"tags\":{},\"timeouts\":null},\"after\":null,\"after_unknown\":{},\"before_sensitive\":{\"tags\":{}},\"after_sensitive\":false}}],\"prior_state\":{\"format_version\":\"0.2\",\"terraform_version\":\"1.0.7\",\"values\":{\"root_module\":{\"resources\":[{\"address\":\"azurerm_resource_group.brad_test\",\"mode\":\"managed\",\"type\":\"azurerm_resource_group\",\"name\":\"brad_test\",\"provider_name\":\"registry.terraform.io/hashicorp/azurerm\",\"schema_version\":0,\"values\":{\"id\":\"/subscriptions/57b482cf/resourceGroups/brad-test\",\"location\":\"southcentralus\",\"name\":\"brad-test\",\"tags\":{},\"timeouts\":null},\"sensitive_values\":{\"tags\":{}}}]}}},\"configuration\":{\"provider_config\":{\"azurerm\":{\"name\":\"azurerm\",\"expressions\":{\"disable_terraform_partner_id\":{\"constant_value\":true},\"features\":[{\"key_vault\":[{\"purge_soft_delete_on_destroy\":{\"constant_value\":true}}]}],\"skip_provider_registration\":{\"constant_value\":true}}}},\"root_module\":{}}}", nil},
 	}
 	for _, tc := range testCases {
-		score := CheckIfPlanPassesOpaPolicy([]byte(tc.plan), tc.cloudProvider)
+		config, err := config.LoadConfig("./../../")
+		if err != nil {
+			log.Fatal("cannot load config:", err)
+		}
+		score := CheckIfPlanPassesOpaPolicy([]byte(tc.plan), tc.cloudProvider, *config)
 		fmt.Println(tc.name, score)
 	}
 }

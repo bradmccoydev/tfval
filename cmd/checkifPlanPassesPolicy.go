@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/bradmccoydev/terraform-plan-validator/config"
 	opa "github.com/bradmccoydev/terraform-plan-validator/pkg/opa"
 	tfsec "github.com/bradmccoydev/terraform-plan-validator/pkg/tfsec"
+	"github.com/bradmccoydev/terraform-plan-validator/util"
 
 	"github.com/spf13/cobra"
 )
@@ -28,10 +28,7 @@ func init() {
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringArrayVar(&planParams, "payload", planParams, "slackwebhook")
 }
 
-func checkifPlanPassesPolicy(args []string, cfg config.Config) bool {
-	fmt.Println("&^&")
-	fmt.Println(cfg.OpaAzurePolicy)
-	fmt.Println("&^&")
+func checkifPlanPassesPolicy(args []string, cfg util.Config) bool {
 	fileName := args[0]
 	cloudProvider := args[1]
 
@@ -43,7 +40,7 @@ func checkifPlanPassesPolicy(args []string, cfg config.Config) bool {
 	passesTfsec := tfsec.CheckIfPlanPassesTfPolicy(plan)
 	fmt.Println("passes:", passesTfsec)
 
-	passesOpa := opa.CheckIfPlanPassesOpaPolicy(plan, cloudProvider)
+	passesOpa := opa.CheckIfPlanPassesOpaPolicy(plan, cloudProvider, cfg)
 	fmt.Println("passes: ", passesOpa)
 
 	if passesOpa && passesTfsec {

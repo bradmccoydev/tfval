@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/bradmccoydev/terraform-plan-validator/config"
+	"github.com/bradmccoydev/terraform-plan-validator/util"
+	config "github.com/bradmccoydev/terraform-plan-validator/util"
 	"github.com/spf13/cobra"
 )
 
@@ -34,7 +35,7 @@ func init() {
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-	conf, err := config.LoadConfig()
+	conf, err := util.LoadConfig(".")
 
 	if err != nil {
 		fmt.Print(err)
