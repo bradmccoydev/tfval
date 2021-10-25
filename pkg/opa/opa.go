@@ -10,14 +10,14 @@ import (
 )
 
 func CheckIfPlanPassesOpaPolicy(plan []byte, cloudProvider string, cfg config.Config) bool {
-	policy := cfg.OpaGcpPolicy
+	policyLocation := cfg.OpaGcpPolicy
 	if cloudProvider == "azure" {
-		policy = cfg.OpaAzurePolicy
+		policyLocation = cfg.OpaAzurePolicy
 	}
 
 	r := rego.New(
-		rego.Query("data.terraform.analysis.authz"),
-		rego.Load([]string{policy}, nil))
+		rego.Query(cfg.OpaRegoQuery),
+		rego.Load([]string{policyLocation}, nil))
 
 	ctx := context.Background()
 	query, err := r.PrepareForEval(ctx)

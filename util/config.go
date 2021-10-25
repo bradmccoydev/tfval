@@ -10,7 +10,7 @@ type Config struct {
 	OpaGcpPolicy   string `mapstructure:"OPA_GCP_POLICY"`
 	OpaAzurePolicy string `mapstructure:"OPA_AZURE_POLICY"`
 	OpaAwsPolicy   string `mapstructure:"OPA_AWS_POLICY"`
-	OpaRegoQuery   string `mapstructure:"OPA_REGO_POLICY"`
+	OpaRegoQuery   string `mapstructure:"OPA_REGO_QUERY"`
 }
 
 func LoadConfig(path string) (config *Config, err error) {
@@ -26,5 +26,6 @@ func LoadConfig(path string) (config *Config, err error) {
 	}
 
 	err = viper.Unmarshal(&config)
+
 	return
 }

@@ -15,3 +15,4 @@
 # vendor/
 
 delete-rg-test.json
+.vscode

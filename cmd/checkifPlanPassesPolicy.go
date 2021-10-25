@@ -38,10 +38,7 @@ func checkifPlanPassesPolicy(args []string, cfg util.Config) bool {
 	}
 
 	passesTfsec := tfsec.CheckIfPlanPassesTfPolicy(plan)
-	fmt.Println("passes:", passesTfsec)
-
 	passesOpa := opa.CheckIfPlanPassesOpaPolicy(plan, cloudProvider, cfg)
-	fmt.Println("passes: ", passesOpa)
 
 	if passesOpa && passesTfsec {
 		return true

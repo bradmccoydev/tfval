@@ -46,4 +46,5 @@ func initConfig() {
 	cfg.OpaGcpPolicy = conf.OpaGcpPolicy
 	cfg.OpaAzurePolicy = conf.OpaAzurePolicy
 	cfg.OpaAwsPolicy = conf.OpaAwsPolicy
+	cfg.OpaRegoQuery = conf.OpaRegoQuery
 }
