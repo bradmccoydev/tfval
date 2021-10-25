@@ -11,6 +11,12 @@ pipelines:
         artifacts:
             - tfsec-report.json
     - step:
+        name: Check if commit passes TF plan validator
+        image: bradmccoydev/terraform-plan-validator:latest
+        script:
+          - ls && pwd
+          - /usr/bin/terraform-plan-validator check "tfsec-report.json" "azure"
+    - step:
         name: send slack message if vulnerabilities
         image: bradmccoydev/tfsec:latest
         script:
@@ -27,6 +33,12 @@ pipelines:
             - cat tfsec-report.json
           artifacts:
               - tfsec-report.json
+      - step:
+        name: Check if commit passes TF plan validator
+        image: bradmccoydev/terraform-plan-validator:latest
+        script:
+          - ls && pwd
+          - /usr/bin/terraform-plan-validator check "tfsec-report.json" "azure"
       - step:
           name: send slack message if vulnerabilities
           image: bradmccoydev/tfsec:latest

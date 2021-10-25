@@ -13,3 +13,9 @@ docker pull bradmccoydev/terraform-plan-validator:latest
 
 docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check "delete-rg-test.json" "azure"
 ```
+
+variables:
+    OPA_GCP_POLICY: opa-gcp-policy.rego
+    OPA_AZURE_POLICY: opa-azure-policy.rego
+    OPA_AWS_POLICY: opa-aws-policy.rego
+    OPA_REGO_QUERY: data.terraform.analysis.authz

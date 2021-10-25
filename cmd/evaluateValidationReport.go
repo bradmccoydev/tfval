@@ -16,7 +16,7 @@ import (
 var evaluateValidationReportCmd = &cobra.Command{
 	Use:   "evaluate",
 	Short: "Evaluate Validation Report",
-	Long:  `Evaluate Validatino Report`,
+	Long:  `Evaluate Validation Report`,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := evaluateValidationReport(args)
 		if err != nil {
