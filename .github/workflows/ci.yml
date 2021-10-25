@@ -23,3 +23,5 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+      env:
+        OPA_AZURE_POLICY: ./../../opa-azure-policy.rego  

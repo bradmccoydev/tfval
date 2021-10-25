@@ -6,8 +6,10 @@ go run main.go check "delete-rg-test.json" "azure"
 
 # Docker
 ``` 
-docker build . -t terrform-plan-validator
-docker tag terrform-plan-validator bradmccoydev/terrform-plan-validator:latest
-docker push bradmccoydev/terrform-plan-validator:latest
-docker pull bradmccoydev/terrform-plan-validator:latest
+docker build . -t terraform-plan-validator
+docker tag terraform-plan-validator bradmccoydev/terraform-plan-validator:latest
+docker push bradmccoydev/terraform-plan-validator:latest
+docker pull bradmccoydev/terraform-plan-validator:latest
+
+docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check "delete-rg-test.json" "azure"
 ```

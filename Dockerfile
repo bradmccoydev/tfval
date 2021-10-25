@@ -18,6 +18,7 @@ WORKDIR /terraform-plan-validator
 
 COPY app.env ./app.env
 COPY opa-azure-policy.rego ./opa-azure-policy.rego
+COPY delete-rg-test.json ./delete-rg-test.json
 
 COPY --from=build /terraform-plan-validator terraform-plan-validator
 COPY --from=build terraform-plan-validator /usr/bin/terraform-plan-validator
