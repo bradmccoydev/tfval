@@ -19,3 +19,6 @@ variables:
     OPA_AZURE_POLICY: opa-azure-policy.rego
     OPA_AWS_POLICY: opa-aws-policy.rego
     OPA_REGO_QUERY: data.terraform.analysis.authz
+
+chmod +x ./main
+./main check "delete-rg-test.json" "azure"
