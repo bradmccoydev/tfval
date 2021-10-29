@@ -23,6 +23,7 @@ func TestGetOpaScore(t *testing.T) {
 		if err != nil {
 			log.Fatal("cannot load config:", err)
 		}
+
 		score := CheckIfPlanPassesOpaPolicy([]byte(tc.plan), tc.cloudProvider, *config)
 		fmt.Println(tc.name, score)
 	}
