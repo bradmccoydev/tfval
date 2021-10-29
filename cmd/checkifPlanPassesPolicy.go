@@ -38,7 +38,7 @@ func checkifPlanPassesPolicy(args []string, cfg util.Config) bool {
 		fmt.Println(err)
 	}
 
-	passesTfsec, err := tfsec.CheckIfPlanPassesTfPolicy(plan, cfg)
+	passesTfsec := tfsec.CheckIfPlanPassesTfPolicy(plan, cfg)
 	if err != nil {
 		os.Exit(1)
 	}
