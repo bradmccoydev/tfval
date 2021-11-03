@@ -47,4 +47,5 @@ func initConfig() {
 	cfg.OpaAzurePolicy = conf.OpaAzurePolicy
 	cfg.OpaAwsPolicy = conf.OpaAwsPolicy
 	cfg.OpaRegoQuery = conf.OpaRegoQuery
+	cfg.TfsecMaxSeverity = conf.TfsecMaxSeverity
 }

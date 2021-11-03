@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 
 	opa "github.com/bradmccoydev/terraform-plan-validator/pkg/opa"
 	tfsec "github.com/bradmccoydev/terraform-plan-validator/pkg/tfsec"
@@ -39,9 +38,6 @@ func checkifPlanPassesPolicy(args []string, cfg util.Config) bool {
 	}
 
 	passesTfsec := tfsec.CheckIfPlanPassesTfPolicy(plan, cfg)
-	if err != nil {
-		os.Exit(1)
-	}
 	passesOpa := opa.CheckIfPlanPassesOpaPolicy(plan, cloudProvider, cfg)
 
 	if passesOpa && passesTfsec {
