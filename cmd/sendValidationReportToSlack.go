@@ -29,7 +29,7 @@ var validationReportParams []string
 
 func init() {
 	rootCmd.AddCommand(sendValidationReportToSlackCmd)
-	sendSlackMessageCmd.PersistentFlags().StringArrayVar(&validationReportParams, "payload", validationReportParams, "slackwebhook")
+	sendValidationReportToSlackCmd.PersistentFlags().StringArrayVar(&validationReportParams, "payload", validationReportParams, "slackwebhook")
 }
 
 func sendValidationReportToSlack(args []string) error {
@@ -50,43 +50,49 @@ func sendValidationReportToSlack(args []string) error {
 		header := fmt.Sprintf(`{"blocks": [{"type": "header","text": {"type": "plain_text","text": ":cop: Pull Request %v Static Code Analysis Failed :cop:","emoji": true}}`, prNumber)
 		footer := fmt.Sprintf(`,{"type": "divider"},{"type": "section","text": {"type": "mrkdwn","text": "View further details in the pull request:"},"accessory": {"type": "button","text": {"type": "plain_text","text": "View Pull Request","emoji": true},"value": "click_me_123","url": "%v","action_id": "button-action"}}`, repoFullUrl)
 		body := fmt.Sprintf("%v%v", header, footer)
+		count := 0
 
 		for _, element := range vulnerabilities.Results {
-			emoji := ":warning:"
-
-			if element.Severity == "MEDIUM" {
-				emoji = ":orange_book:"
+			if element.Severity == "LOW" && (cfg.TfsecMaxSeverity == "LOW" || cfg.TfsecMaxSeverity == "MEDIUM") {
+				count += 1
+				impact := fmt.Sprintf(`,{"type": "section","text": {"type": "mrkdwn","text": "%v *%v*"}}`, ":orange_book:", element.Impact)
+				resolution := fmt.Sprintf(`,{"type": "section","text": {"type": "mrkdwn","text": ":arrow_right: %v"}}`, element.Resolution)
+				body = fmt.Sprintf(`%v%v%v`, body, impact, resolution)
 			}
 
-			if element.Severity == "CRITICAL" {
-				emoji = ":red_envelope:"
+			if element.Severity == "MEDIUM" && cfg.TfsecMaxSeverity == "MEDIUM" {
+				count += 1
+				impact := fmt.Sprintf(`,{"type": "section","text": {"type": "mrkdwn","text": "%v *%v*"}}`, ":orange_book:", element.Impact)
+				resolution := fmt.Sprintf(`,{"type": "section","text": {"type": "mrkdwn","text": ":arrow_right: %v"}}`, element.Resolution)
+				body = fmt.Sprintf(`%v%v%v`, body, impact, resolution)
 			}
 
-			impact := fmt.Sprintf(`,{"type": "section","text": {"type": "mrkdwn","text": "%v *%v*"}}`, emoji, element.Impact)
-			resolution := fmt.Sprintf(`,{"type": "section","text": {"type": "mrkdwn","text": ":arrow_right: %v"}}`, element.Resolution)
-			body = fmt.Sprintf(`%v%v%v`, body, impact, resolution)
-
+			if element.Severity == "CRITICAL" && cfg.TfsecMaxSeverity == "CRITICAL" {
+				count += 1
+				impact := fmt.Sprintf(`,{"type": "section","text": {"type": "mrkdwn","text": "%v *%v*"}}`, ":red_envelope:", element.Impact)
+				resolution := fmt.Sprintf(`,{"type": "section","text": {"type": "mrkdwn","text": ":arrow_right: %v"}}`, element.Resolution)
+				body = fmt.Sprintf(`%v%v%v`, body, impact, resolution)
+			}
 		}
 
-		body = fmt.Sprintf(`%v%v`, body, "]}")
-		fmt.Println(body)
+		if count > 0 {
+			client := &http.Client{}
+			body = fmt.Sprintf(`%v%v`, body, "]}")
 
-		method := "POST"
+			req, err := http.NewRequest("POST", slackWebhook, strings.NewReader(body))
+			if err != nil {
+				log.Println("Http Error: ", err)
+			}
 
-		client := &http.Client{}
-		req, err := http.NewRequest(method, slackWebhook, strings.NewReader(body))
-		if err != nil {
-			log.Println("Http Error: ", err)
+			req.Header.Set("Content-Type", "application/json")
+
+			resp, err := client.Do(req)
+			if err != nil {
+				log.Println("Http:", err)
+			}
+
+			fmt.Println(resp)
 		}
-		req.Header.Set("Content-Type", "application/json")
-
-		resp, err := client.Do(req)
-		if err != nil {
-			log.Println("Http:", err)
-		}
-
-		fmt.Println(resp)
-
 	}
 
 	return nil

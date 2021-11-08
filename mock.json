@@ -1,0 +1,150 @@
+{
+	"results": [
+		{
+			"rule_id": "azure-appservice-require-client-cert",
+			"legacy_rule_id": "",
+			"rule_description": "Web App accepts incoming client certificate",
+			"rule_provider": "azure",
+			"impact": "Mutual TLS is not being used",
+			"resolution": "Enable incoming certificates for clients",
+			"links": [
+				"https://tfsec.dev/docs/azure/appservice/require-client-cert#azure/appservice",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service#client_cert_enabled"
+			],
+			"description": "Resource 'azurerm_app_service.default' uses default value for client_cert_enabled",
+			"severity": "LOW",
+			"status": "failed",
+			"location": {
+				"filename": "/opt/atlassian/pipelines/agent/build/azurerm/azurerm_app_service/main.tf",
+				"start_line": 27,
+				"end_line": 70
+			}
+		},
+		{
+			"rule_id": "azure-database-enable-audit",
+			"legacy_rule_id": "AZU018",
+			"rule_description": "Auditing should be enabled on Azure SQL Databases",
+			"rule_provider": "azure",
+			"impact": "Auditing provides valuable information about access and usage",
+			"resolution": "Enable auditing on Azure SQL databases",
+			"links": [
+				"https://tfsec.dev/docs/azure/database/enable-audit#azure/database",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/sql_server#extended_auditing_policy",
+				"https://docs.microsoft.com/en-us/azure/azure-sql/database/auditing-overview"
+			],
+			"description": "Resource 'azurerm_mssql_server.default' does not have an extended audit policy configured.",
+			"severity": "MEDIUM",
+			"status": "failed",
+			"location": {
+				"filename": "/opt/atlassian/pipelines/agent/build/azurerm/azurerm_mssql_server/main.tf",
+				"start_line": 1,
+				"end_line": 11
+			}
+		},
+		{
+			"rule_id": "azure-database-no-public-access",
+			"legacy_rule_id": "",
+			"rule_description": "Ensure databases are not publicly accessible",
+			"rule_provider": "azure",
+			"impact": "Publicly accessible database could lead to compromised data",
+			"resolution": "Disable public access to database when not required",
+			"links": [
+				"https://tfsec.dev/docs/azure/database/no-public-access#azure/database",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_server#public_network_access_enabled",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_server#public_network_access_enabled",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mariadb_server#public_network_access_enabled"
+			],
+			"description": "Resource 'azurerm_mssql_server.default' has default public network access of enabled",
+			"severity": "MEDIUM",
+			"status": "failed",
+			"location": {
+				"filename": "/opt/atlassian/pipelines/agent/build/azurerm/azurerm_mssql_server/main.tf",
+				"start_line": 1,
+				"end_line": 11
+			}
+		},
+		{
+			"rule_id": "azure-datafactory-no-public-access",
+			"legacy_rule_id": "AZU025",
+			"rule_description": "Data Factory should have public access disabled, the default is enabled.",
+			"rule_provider": "azure",
+			"impact": "Data factory is publicly accessible",
+			"resolution": "Set public access to disabled for Data Factory",
+			"links": [
+				"https://tfsec.dev/docs/azure/datafactory/no-public-access#azure/datafactory",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/data_factory#public_network_enabled",
+				"https://docs.microsoft.com/en-us/azure/data-factory/data-movement-security-considerations#hybrid-scenarios"
+			],
+			"description": "Resource 'azurerm_data_factory.default' should have public_network_enabled set to false, the default is true.",
+			"severity": "CRITICAL",
+			"status": "failed",
+			"location": {
+				"filename": "/opt/atlassian/pipelines/agent/build/azurerm/azurerm_data_factory/main.tf",
+				"start_line": 1,
+				"end_line": 18
+			}
+		},
+		{
+			"rule_id": "azure-keyvault-ensure-secret-expiry",
+			"legacy_rule_id": "AZU023",
+			"rule_description": "Key Vault Secret should have an expiration date set",
+			"rule_provider": "azure",
+			"impact": "Long life secrets increase the opportunity for compromise",
+			"resolution": "Set an expiry for secrets",
+			"links": [
+				"https://tfsec.dev/docs/azure/keyvault/ensure-secret-expiry#azure/keyvault",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret#expiration_date",
+				"https://docs.microsoft.com/en-us/azure/key-vault/secrets/about-secrets"
+			],
+			"description": "Resource 'azurerm_key_vault_secret.default' should have an expiration date set.",
+			"severity": "LOW",
+			"status": "failed",
+			"location": {
+				"filename": "/opt/atlassian/pipelines/agent/build/azurerm/azurerm_key_vault_secret/main.tf",
+				"start_line": 1,
+				"end_line": 6
+			}
+		},
+		{
+			"rule_id": "azure-keyvault-specify-network-acl",
+			"legacy_rule_id": "AZU020",
+			"rule_description": "Key vault should have the network acl block specified",
+			"rule_provider": "azure",
+			"impact": "Without a network ACL the key vault is freely accessible",
+			"resolution": "Set a network ACL for the key vault",
+			"links": [
+				"https://tfsec.dev/docs/azure/keyvault/specify-network-acl#azure/keyvault",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault#network_acls",
+				"https://docs.microsoft.com/en-us/azure/key-vault/general/network-security"
+			],
+			"description": "Resource 'azurerm_key_vault.default' specifies does not specify a network acl block with default action.",
+			"severity": "CRITICAL",
+			"status": "failed",
+			"location": {
+				"filename": "/opt/atlassian/pipelines/agent/build/azurerm/azurerm_key_vault/main.tf",
+				"start_line": 1,
+				"end_line": 13
+			}
+		},
+		{
+			"rule_id": "azure-appservice-authentication-enabled",
+			"legacy_rule_id": "",
+			"rule_description": "App Service authentication is activated",
+			"rule_provider": "azure",
+			"impact": "Anonymous HTTP requests will be accepted",
+			"resolution": "Enable authentication to prevent anonymous request being accepted",
+			"links": [
+				"https://tfsec.dev/docs/azure/appservice/authentication-enabled#azure/appservice",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service#enabled"
+			],
+			"description": "Resource 'azurerm_app_service.default' uses default value for auth_settings.enabled",
+			"severity": "MEDIUM",
+			"status": "failed",
+			"location": {
+				"filename": "/opt/atlassian/pipelines/agent/build/azurerm/azurerm_app_service/main.tf",
+				"start_line": 27,
+				"end_line": 70
+			}
+		}
+	]
+}

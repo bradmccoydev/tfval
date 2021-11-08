@@ -1,4 +1,4 @@
-![passing](https://github.com/bradmccoydev/terraform-plan-validator/actions/workflows/ci.yml/badge.svg)
+![passing](https://github.com/bradmccoydev/terraform-plan-validator/actions/workflows/ci.yml/badge.svg) ![GitHub](https://img.shields.io/github/license/bradmccoydev/terraform-plan-validator)
 # Terraform Plan Validator
 Validates Terraform Plans using TFSEC and OPA
 
@@ -8,12 +8,12 @@ env GOOS=linux GOARCH=amd64 go build -o terraform-plan-validator-amd64
 
 # Docker
 ``` 
-docker build . -t terraform-plan-validator
-docker tag terraform-plan-validator bradmccoydev/terraform-plan-validator:latest
+docker build . -t bradmccoydev/terraform-plan-validator:latest
 docker push bradmccoydev/terraform-plan-validator:latest
 docker pull bradmccoydev/terraform-plan-validator:latest
 
 docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check "delete-rg-test.json" "azure"
+docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest sendreport "$test" "http://www.google.com" "./mock.json" "webhook"
 ```
 
 ### Variables
