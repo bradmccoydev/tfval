@@ -1,0 +1,38 @@
+replicaCount: 1
+
+
+image: 
+  pullPolicy: IfNotPresent
+
+nameOverride: ''
+fullnameOverride: ''
+
+service:
+  annotation: {}
+  type: ClusterIP
+  port: 80
+
+
+ingress: 
+  enabled: false
+  annotations: {}
+  hosts: 
+  - chart-example.local
+  tls: []
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+app:
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  successsThreshold: 1
+  failureThreshold: 3
+  timeoutSeconds: 5
+
+  

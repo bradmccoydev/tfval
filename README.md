@@ -1,3 +1,4 @@
+![passing](https://github.com/bradmccoydev/terraform-plan-validator/actions/workflows/ci.yml/badge.svg)
 # Terraform Plan Validator
 Validates Terraform Plans using TFSEC and OPA
 

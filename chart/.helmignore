@@ -1,0 +1,9 @@
+#Common backup files
+*.swp
+*.backup
+*.tmp
+*~
+#various IDE
+.project
+.idea
+*.tmproj
