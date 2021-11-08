@@ -1,4 +1,4 @@
-![GitHub](https://img.shields.io/github/license/bradmccoydev/terraform-plan-validator) ![passing](https://github.com/bradmccoydev/terraform-plan-validator/actions/workflows/ci.yml/badge.svg) ![GitHub](https://img.shields.io/github/license/bradmccoydev/terraform-plan-validator) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/bradmccoydev/terraform-plan-validator)
+![GitHub](https://img.shields.io/github/license/bradmccoydev/terraform-plan-validator) ![passing](https://github.com/bradmccoydev/terraform-plan-validator/actions/workflows/ci.yml/badge.svg) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/bradmccoydev/terraform-plan-validator)
 # Terraform Plan Validator
 Validates Terraform Plans using TFSEC and OPA
 
