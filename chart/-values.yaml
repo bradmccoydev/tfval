@@ -1,0 +1,42 @@
+replicaCount: 1
+
+image: 
+  repository: "us.gcr.io/oc-devops-dev/odysseycloud-io"
+  tag: "a0b41b7c5fdc64f469c0fe95f88a91631eeae0bb"
+  pullPolicy: Always
+
+  publicUrl: "odysseycloud.io"
+
+nameOverride: ''
+fullnameOverride: ''
+
+service:
+  annotation: {}
+  type: NodePort
+  port: 80
+
+resources: 
+  limits:
+    cpu: 200m
+    memory: 200Mi
+  requests:
+    cpu: 100m
+    memory: 100Mi
+
+
+nodeSelector: {}
+
+tolerations: []
+
+antiAffinity:
+  enabled: true
+
+
+app:
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  successsThreshold: 1
+  failureThreshold: 3
+  timeoutSeconds: 5
+
+  
