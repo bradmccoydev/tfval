@@ -8,6 +8,8 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: production
     steps:
     - uses: actions/checkout@v2
 
@@ -56,16 +58,15 @@ jobs:
     - name: Docker Push
       run: docker push bradmccoydev/terraform-plan-validator:${{ github.sha }}
 
-    - name: update tag for oc-web image on deployment
+    - name: update tag for terraform-plan-validator image on deployment
       run: |-
-        export $GITHUB_SHA
-        find "chart" -name "*.tmpl" -exec bash -c 'envsubst < $1 > chart/${{ env.CLIENT_ENVIRONMENT }}-values.yaml' _ {} \;
+        cd chart
+        export GITHUB_SHA=${{ github.sha }}
+        find "chart" -name "*.tmpl" -exec bash -c 'envsubst < $1 > chart/${{ env.ENVIRONMENT }}-values.yaml' _ {} \;
         ls chart/
-        cat chart/${{ env.CLIENT_ENVIRONMENT }}-values.yaml
-        git status   
-        git config --global user.email "github_actions@odysseycloud.io"
+        cat chart/${{ env.ENVIRONMENT }}-values.yaml   
+        git config --global user.email "github_actions@bradmccoy.io"
         git config --global user.name "github_actions"
-        git add chart/${{ env.CLIENT_ENVIRONMENT }}-values.yaml
-        echo $IMAGE_TAG
-        git commit -m "update image tag with  $GITHUB_SHA"
+        git add chart/${{ env.ENVIRONMENT }}-values.yaml
+        git commit -m "update image tag with $GITHUB_SHA"
         git push
