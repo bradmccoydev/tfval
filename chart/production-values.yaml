@@ -2,7 +2,7 @@ replicaCount: 1
 
 image: 
   repository: "us.gcr.io/oc-devops-dev/odysseycloud-io"
-  tag: "059af133a268c87f486716a9cb931c7e072cc7aa"
+  tag: "210fe3b91b824caeb64ac99e83498f0854f2d77d"
   pullPolicy: Always
 
   publicUrl: "odysseycloud.io"
