@@ -12,10 +12,11 @@ docker pull bradmccoydev/terraform-plan-validator:latest
 ```
 
 ```
-docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check "delete-rg-test.json" "azure"
+docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check --planFileName "delete-rg-test.json" --cloudProvider "azure"
 ```
 
-docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest sendreport "$test" "http://www.google.com" "./mock.json" "webhook"
+```
+docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest sendreport --prNumber "$test" --repoFullUrl "http://www.google.com" --fileName "./mock.json" --slackWebhook "webhook"
 ```
 
 ### Variables

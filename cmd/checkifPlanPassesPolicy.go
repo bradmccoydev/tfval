@@ -12,7 +12,6 @@ import (
 )
 
 var (
-	// Used for flags.
 	planFileName  string
 	cloudProvider string
 
