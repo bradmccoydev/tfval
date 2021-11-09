@@ -1,11 +1,11 @@
 replicaCount: 1
 
 image: 
-  repository: "bradmccoydev/terraform-plan-validator"
-  tag: "b249f4e6d2de2dc6623825fdbcedbbf3bbf4c1ab"
+  repository: "us.gcr.io/oc-devops-dev/odysseycloud-io"
+  tag: "cf584b9dc06e8ea32a1b5eacb7474d0183250df1"
   pullPolicy: Always
 
-  publicUrl: "bradmccoy.io"
+  publicUrl: "odysseycloud.io"
 
 nameOverride: ''
 fullnameOverride: ''
@@ -15,26 +15,6 @@ service:
   type: NodePort
   port: 80
 
-
-ingress-aws: 
-  enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    external-dns.alpha.kubernetes.io/hostname: bradmccoy.io
-    cert-manager.io/cluster-issuer: letsencrypt-aws-certs
-    nginx.ingress.kubernetes.io/configuration-snippet:
-      more_clear_headers Server X-Powered-By;
-    nginx.ingress.kubernetes.io/rewrite-target: /
-  path: /
-  pathType: Prefix
-  hosts:
-  - tf.bradmccoy.io
-  tls:
-  - hosts:
-      - tf.bradmccoy.io
-    secretName: letsencrypt-bradmccoy-io
-
-
 resources: 
   limits:
     cpu: 200m
@@ -42,19 +22,6 @@ resources:
   requests:
     cpu: 100m
     memory: 100Mi
-
-# config:
-#   appReferral:
-#     enabled: true
-#   monitoring:
-#     enabled: true
-
-#   media:
-#     url: ''
-
-#   monitoring: 
-#     enabled: false
-  
 
 
 nodeSelector: {}
