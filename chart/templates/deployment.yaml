@@ -28,7 +28,7 @@ spec:
               - key: app
                 operator: In
                 values: 
-                - {{ include "oc-web.name" . }}
+                - {{ include "terraform-plan-validator.name" . }}
               - key: release
                 operator: In
                 values: 

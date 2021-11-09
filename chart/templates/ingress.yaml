@@ -1,0 +1,35 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "terraform-plan-validator.fullname" . }}
+  labels: 
+    app: {{ include "terraform-plan-validator.fullname" . }}
+    chart: {{ include "terraform-plan-validator.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    {{- range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: {{ .Values.ingress.path | default "/" }}
+        backend:
+          service:
+            name: {{ include "terraform-plan-validator.fullname" . }}
+            port:
+              number: {{ .Values.service.port }}
+    {{- if .Values.ingress.hostname }}
+    host: {{ .Values.ingress.hostname }}
+    {{- end }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts:
+      - {{ .Values.ingress.hostname }}
+      secretName: {{ .Values.ingress.tls.secretName }}
+  {{- end }}
+{{- end -}}
