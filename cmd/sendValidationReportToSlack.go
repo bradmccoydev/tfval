@@ -37,9 +37,9 @@ var (
 func init() {
 	rootCmd.AddCommand(sendValidationReportToSlackCmd)
 	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&prNumber, "prNumber", "p", prNumber, "Pull request number")
-	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&repoFullUrl, "repoFullUrl", "r", prNumber, "Full repo URL")
-	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&fileName, "fileName", "f", prNumber, "Filename of the terraform plan")
-	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&slackWebhook, "slackWebhook", "s", prNumber, "The Slack Webhook")
+	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&repoFullUrl, "repoFullUrl", "r", repoFullUrl, "Full repo URL")
+	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&fileName, "fileName", "f", fileName, "Filename of the terraform plan")
+	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&slackWebhook, "slackWebhook", "s", slackWebhook, "The Slack Webhook")
 }
 
 func sendValidationReportToSlack(args []string) error {
