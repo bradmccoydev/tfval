@@ -60,7 +60,9 @@ jobs:
 
     - name: update tag for terraform-plan-validator image on deployment
       run: |-
-        cd chart
+        ls
+        pwd
+        # cd chart
         export GITHUB_SHA=${{ github.sha }}
         find "chart" -name "*.tmpl" -exec bash -c 'envsubst < $1 > chart/${{ env.ENVIRONMENT }}-values.yaml' _ {} \;
         ls chart/
