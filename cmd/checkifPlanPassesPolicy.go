@@ -11,28 +11,29 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var checkifPlanPassesPolicyCmd = &cobra.Command{
-	Use:   "check",
-	Short: "check If plan passes policy",
-	Long:  `Check if plan passes Policy`,
-	Run: func(cmd *cobra.Command, args []string) {
-		result := checkifPlanPassesPolicy(args, *cfg)
-		fmt.Println(result)
-	},
-}
+var (
+	planFileName  string
+	cloudProvider string
 
-var planParams []string
+	checkifPlanPassesPolicyCmd = &cobra.Command{
+		Use:   "check",
+		Short: "check If plan passes policy",
+		Long:  `Check if plan passes Policy`,
+		Run: func(cmd *cobra.Command, args []string) {
+			result := checkifPlanPassesPolicy(args, *cfg)
+			fmt.Println(result)
+		},
+	}
+)
 
 func init() {
 	rootCmd.AddCommand(checkifPlanPassesPolicyCmd)
-	checkifPlanPassesPolicyCmd.PersistentFlags().StringArrayVar(&planParams, "payload", planParams, "slackwebhook")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&planFileName, "planFileName", "p", planFileName, "Plan file Name")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&cloudProvider, "cloudProvider", "c", cloudProvider, "Cloud Provider")
 }
 
 func checkifPlanPassesPolicy(args []string, cfg util.Config) bool {
-	fileName := args[0]
-	cloudProvider := args[1]
-
-	plan, err := ioutil.ReadFile(fileName)
+	plan, err := ioutil.ReadFile(planFileName)
 	if err != nil {
 		fmt.Println(err)
 	}

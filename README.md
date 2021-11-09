@@ -1,4 +1,4 @@
-![passing](https://github.com/bradmccoydev/terraform-plan-validator/actions/workflows/ci.yml/badge.svg) ![GitHub](https://img.shields.io/github/license/bradmccoydev/terraform-plan-validator) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/bradmccoydev/terraform-plan-validator)
+![passing](https://github.com/bradmccoydev/terraform-plan-validator/actions/workflows/ci.yml/badge.svg) [![Go Report Card](https://goreportcard.com/badge/github.com/bradmccoydev/terraform-plan-validator)](https://goreportcard.com/report/github.com/bradmccoydev/terraform-plan-validator) ![GitHub](https://img.shields.io/github/license/bradmccoydev/terraform-plan-validator) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/bradmccoydev/terraform-plan-validator)
 # Terraform Plan Validator
 Validates Terraform Plans using TFSEC and OPA
 
@@ -8,12 +8,15 @@ env GOOS=linux GOARCH=amd64 go build -o terraform-plan-validator-amd64
 
 # Docker
 ``` 
-docker build . -t bradmccoydev/terraform-plan-validator:latest
-docker push bradmccoydev/terraform-plan-validator:latest
 docker pull bradmccoydev/terraform-plan-validator:latest
+```
 
-docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check "delete-rg-test.json" "azure"
-docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest sendreport "$test" "http://www.google.com" "./mock.json" "webhook"
+```
+docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check --planFileName "delete-rg-test.json" --cloudProvider "azure"
+```
+
+```
+docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest sendreport --prNumber "$test" --repoFullUrl "http://www.google.com" --fileName "./mock.json" --slackWebhook "webhook"
 ```
 
 ### Variables
@@ -25,3 +28,11 @@ docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest sendreport "$te
 | OPA_AWS_POLICY | opa-aws-policy.rego |
 | OPA_REGO_QUERY | data.terraform.analysis.authz |
 | TFSEC_MAX_SEVERITY | ["LOW", "MEDIUM", "CRITICAL"] |
+
+Maintainers:
+* Brad McCoy ([@bradmccoydev](https://github.com/bradmccoydev)), Moula
+* Ben Poh ([@benhpoh](https://github.com/benhpoh)), Moula
+
+# License
+
+Terraform Plan Validator is released under the Apache 2.0 license. See [LICENSE.txt](https://github.com/bradmccoydev/terraform-plan-validator/blob/main/LICENSE)
