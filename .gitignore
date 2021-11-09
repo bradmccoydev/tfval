@@ -17,3 +17,4 @@
 delete-rg-test.json
 .vscode
 terraform-plan-validator-amd64
+go.sum
