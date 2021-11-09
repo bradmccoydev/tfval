@@ -12,31 +12,40 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// rootCmd represents the base command when called without any subcommands
-var sendValidationReportToSlackCmd = &cobra.Command{
-	Use:   "sendreport",
-	Short: "Send Validation Report",
-	Long:  `Send Terraform  validation Report to slack`,
-	Run: func(cmd *cobra.Command, args []string) {
-		err := sendValidationReportToSlack(args)
-		if err != nil {
-			fmt.Println(err)
-		}
-	},
-}
+var (
+	// Used for flags.
+	prNumber     string
+	repoFullUrl  string
+	fileName     string
+	slackWebhook string
 
-var validationReportParams []string
+	// rootCmd represents the base command when called without any subcommands
+	sendValidationReportToSlackCmd = &cobra.Command{
+		Use:   "sendreport",
+		Short: "Send Validation Report",
+		Long:  `Send Terraform  validation Report to slack`,
+		Run: func(cmd *cobra.Command, args []string) {
+			err := sendValidationReportToSlack(args)
+			if err != nil {
+				fmt.Println(err)
+			}
+		},
+	}
+)
 
 func init() {
 	rootCmd.AddCommand(sendValidationReportToSlackCmd)
-	sendValidationReportToSlackCmd.PersistentFlags().StringArrayVar(&validationReportParams, "payload", validationReportParams, "slackwebhook")
+	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&prNumber, "prNumber", "p", prNumber, "Pull request number")
+	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&repoFullUrl, "repoFullUrl", "r", prNumber, "Full repo URL")
+	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&fileName, "fileName", "f", prNumber, "Filename of the terraform plan")
+	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&slackWebhook, "slackWebhook", "s", prNumber, "The Slack Webhook")
 }
 
 func sendValidationReportToSlack(args []string) error {
-	prNumber := args[0]
-	repoFullUrl := args[1]
-	fileName := args[2]
-	slackWebhook := args[3]
+	//prNumber := args[0]
+	// repoFullUrl := args[1]
+	// fileName := args[2]
+	// slackWebhook := args[3]
 
 	report, err := ioutil.ReadFile(fileName)
 	if err != nil {
