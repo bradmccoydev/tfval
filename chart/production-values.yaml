@@ -1,11 +1,11 @@
 replicaCount: 1
 
 image: 
-  repository: "us.gcr.io/oc-devops-dev/odysseycloud-io"
-  tag: "10ab4a1a9b981d1dabca8720316534cbf5813d7a"
+  repository: "bradmccoydev/terraform-plan-validator"
+  tag: "b81cf5da2fcfcb909eb6f818df5fbd93edf0721e"
   pullPolicy: Always
 
-  publicUrl: "odysseycloud.io"
+  publicUrl: "bradmccoydev.io"
 
 nameOverride: ''
 fullnameOverride: ''
@@ -14,6 +14,15 @@ service:
   annotation: {}
   type: NodePort
   port: 80
+
+ingress:
+  enabled: true
+  hostname: bradmccoydev.io
+  path: /
+  annotations: {}
+  tls:
+    enabled: true
+    secretName: ""
 
 resources: 
   limits:
