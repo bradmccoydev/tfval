@@ -70,5 +70,5 @@ jobs:
         git config --global user.email "github_actions@bradmccoy.io"
         git config --global user.name "github_actions"
         git add chart/${{ env.ENVIRONMENT }}-values.yaml
-        git commit -m "update image tag with $GITHUB_SHA"
+        git commit -m "🤖 update image tag with $GITHUB_SHA"
         git push
