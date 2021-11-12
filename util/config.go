@@ -12,6 +12,7 @@ type Config struct {
 	OpaAwsPolicy     string `mapstructure:"OPA_AWS_POLICY"`
 	OpaRegoQuery     string `mapstructure:"OPA_REGO_QUERY"`
 	TfsecMaxSeverity string `mapstructure:"TFSEC_MAX_SEVERITY"`
+	RepoBaseURL      string `mapstructure:"REPO_BASEURL"`
 }
 
 func LoadConfig(path string) (config *Config, err error) {
