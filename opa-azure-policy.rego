@@ -22,6 +22,8 @@ weights = {
     "azurerm_servicebus_queue": critical_resource_score,
     "azurerm_servicebus_topic": critical_resource_score,
     "azurerm_servicebus_subscription": critical_resource_score,
+    "azurerm_virtual_network": critical_resource_score,
+    "azurerm_subnet": critical_resource_score,
 
     # IMPORTANT RESOURCES - Minor modifications acceptable. Deletion prohibited.
     "azurerm_app_service_plan": important_resource_score,
@@ -33,6 +35,7 @@ weights = {
     "azurerm_notification_hub_namespace": important_resource_score,
     "azurerm_resource_group": important_resource_score,
     "azurerm_storage_account": important_resource_score,
+    "azurerm_nat_gateway": important_resource_score,
 
     # LOW RISK - Generally allowed.
     "azurerm_application_insights": lowrisk_resource_score,
@@ -56,6 +59,8 @@ resource_types = {
     "azurerm_servicebus_queue",
     "azurerm_servicebus_topic",
     "azurerm_servicebus_subscription",
+    "azurerm_virtual_network",
+    "azurerm_subnet",
 
     # IMPORTANT RESOURCES
     "azurerm_app_service_plan",
@@ -67,6 +72,7 @@ resource_types = {
     "azurerm_notification_hub_namespace",
     "azurerm_resource_group",
     "azurerm_storage_account",
+    "azurerm_nat_gateway",
 
     # LOW RISK RESOURCES
     "azurerm_application_insights",
