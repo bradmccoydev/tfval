@@ -24,6 +24,7 @@ weights = {
     "azurerm_servicebus_subscription": critical_resource_score,
     "azurerm_virtual_network": critical_resource_score,
     "azurerm_subnet": critical_resource_score,
+    "azurerm_key_vault_secret": critical_resource_score,
 
     # IMPORTANT RESOURCES - Minor modifications acceptable. Deletion prohibited.
     "azurerm_app_service_plan": important_resource_score,
@@ -31,7 +32,6 @@ weights = {
     "azurerm_data_factory": important_resource_score,
     "azurerm_databricks_workspace": important_resource_score,
     "azurerm_key_vault": important_resource_score,
-    "azurerm_key_vault_secret": important_resource_score,
     "azurerm_notification_hub_namespace": important_resource_score,
     "azurerm_resource_group": important_resource_score,
     "azurerm_storage_account": important_resource_score,
@@ -61,6 +61,7 @@ resource_types = {
     "azurerm_servicebus_subscription",
     "azurerm_virtual_network",
     "azurerm_subnet",
+    "azurerm_key_vault_secret",
 
     # IMPORTANT RESOURCES
     "azurerm_app_service_plan",
@@ -68,7 +69,6 @@ resource_types = {
     "azurerm_data_factory",
     "azurerm_databricks_workspace",
     "azurerm_key_vault",
-    "azurerm_key_vault_secret",
     "azurerm_notification_hub_namespace",
     "azurerm_resource_group",
     "azurerm_storage_account",
