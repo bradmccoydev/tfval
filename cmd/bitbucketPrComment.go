@@ -16,8 +16,8 @@ var (
 	tfCloudProvider string
 
 	bitbucketPrCommentCmd = &cobra.Command{
-		Use:   "check",
-		Short: "check If plan passes policy and comment",
+		Use:   "bitbucketpr",
+		Short: "Bit Bucket PR Commentor",
 		Long:  `Check if plan passes Policy and comment on Pull Request`,
 		Run: func(cmd *cobra.Command, args []string) {
 			result := bitbucketPrComment(args, *cfg)
