@@ -13,9 +13,8 @@ import (
 )
 
 var (
-	hasItems bool
-	body     string
-	// flags
+	hasItems     bool
+	body         string
 	prNumber     string
 	repoFullUrl  string
 	fileName     string

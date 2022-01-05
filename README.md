@@ -3,7 +3,11 @@
 Validates Terraform Plans using TFSEC and OPA
 
 # Commands
-go run main.go check --PlanFileName "delete-rg-test.json" --CloudProvider "azure"
+go run main.go check --planFileName "delete-rg-test.json" --CloudProvider "azure"
+
+go run main.go opascore --planFileName "delete-rg-test.json" --cloudProvider "azure"
+
+
 env GOOS=linux GOARCH=amd64 go build -o terraform-plan-validator-amd64
 
 # Docker
