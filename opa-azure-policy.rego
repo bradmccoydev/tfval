@@ -36,6 +36,8 @@ weights = {
     "azurerm_resource_group": important_resource_score,
     "azurerm_storage_account": important_resource_score,
     "azurerm_nat_gateway": important_resource_score,
+    "azurerm_kubernetes_cluster": important_resource_score,
+    "azurerm_kubernetes_cluster_node_pool": important_resource_score,
 
     # LOW RISK - Generally allowed.
     "azurerm_application_insights": lowrisk_resource_score,
@@ -73,6 +75,8 @@ resource_types = {
     "azurerm_resource_group",
     "azurerm_storage_account",
     "azurerm_nat_gateway",
+    "azurerm_kubernetes_cluster",
+    "azurerm_kubernetes_cluster_node_pool",
 
     # LOW RISK RESOURCES
     "azurerm_application_insights",
