@@ -24,7 +24,7 @@ RUN curl -SL "https://github.com/aquasecurity/tfsec/releases/download/v0.63.1/tf
     chmod +x tfsec && \
     mv tfsec /usr/local/bin
 
-RUN curl -SL "https://releases.hashicorp.com/terraform/1.1.2/terraform_1.1.2_linux_amd64.zip" --output terraform.zip && \
+RUN curl -SL "https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip" --output terraform.zip && \
     unzip "terraform.zip" && \
     mv terraform /usr/local/bin && \
     rm terraform.zip
