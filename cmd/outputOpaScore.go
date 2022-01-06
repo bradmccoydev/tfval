@@ -37,9 +37,6 @@ func outputOpaScore(args []string, cfg util.Config) int {
 		fmt.Println(err)
 	}
 
-	println(opaScorePlanFileName)
-	println(opaScoreCloudProvider)
-
 	opaScore := opa.GetOpaScore(plan, opaScoreCloudProvider, cfg)
 	return opaScore
 }
