@@ -57,6 +57,12 @@ func CheckIfPlanPassesTfPolicy(plan []byte, cfg config.Config) bool {
 	return passesPolicy
 }
 
+func OutputTfsecReport(tfsecJsonOutput []byte, cfg config.Config) model.Vulnerabilities {
+	vulnerabilities := ProduceVulnerabilityReport(tfsecJsonOutput)
+	
+	return vulnerabilities
+}
+
 func IsInvalidCategory(category string) bool {
 	switch category {
 	case
