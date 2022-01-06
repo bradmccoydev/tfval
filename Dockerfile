@@ -20,6 +20,11 @@ ENV OPA_REGO_QUERY=data.terraform.analysis.authz
 
 RUN apk add --no-cache curl git alpine-sdk
 
+RUN curl -SL "https://releases.hashicorp.com/terraform/1.1.2/terraform_1.1.2_linux_amd64.zip" --output terraform.zip && \
+    unzip "terraform.zip" && \
+    mv terraform /usr/local/bin && \
+    rm terraform.zip
+
 WORKDIR /terraform-plan-validator
 
 COPY app.env ./app.env
