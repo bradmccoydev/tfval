@@ -31,7 +31,7 @@ func init() {
 	outputOpaScoreCmd.PersistentFlags().StringVarP(&opaScoreCloudProvider, "cloudProvider", "c", opaScoreCloudProvider, "Cloud Provider")
 }
 
-func outputOpaScore(args []string, cfg util.Config) string {
+func outputOpaScore(args []string, cfg util.Config) int {
 	plan, err := ioutil.ReadFile(opaScorePlanFileName)
 	if err != nil {
 		fmt.Println(err)
@@ -41,7 +41,5 @@ func outputOpaScore(args []string, cfg util.Config) string {
 	println(opaScoreCloudProvider)
 
 	opaScore := opa.GetOpaScore(plan, opaScoreCloudProvider, cfg)
-	fmt.Println(opaScore)
-
-	return "s"
+	return opaScore
 }
