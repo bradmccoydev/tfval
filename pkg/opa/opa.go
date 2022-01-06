@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	config "github.com/bradmccoydev/terraform-plan-validator/util"
 	"github.com/open-policy-agent/opa/rego"
@@ -43,7 +44,7 @@ func CheckIfPlanPassesOpaPolicy(plan []byte, cloudProvider string, cfg config.Co
 	return rs.Allowed()
 }
 
-func GetOpaScore(plan []byte, cloudProvider string, cfg config.Config) string {
+func GetOpaScore(plan []byte, cloudProvider string, cfg config.Config) int {
 	policyLocation := cfg.OpaAzurePolicy
 	if cloudProvider == "gcp" {
 		policyLocation = cfg.OpaGcpPolicy
@@ -70,8 +71,7 @@ func GetOpaScore(plan []byte, cloudProvider string, cfg config.Config) string {
 	if err != nil {
 		fmt.Println(err)
 	}
-
-	println(rs.Allowed())
-
-	return "s"
+	s := fmt.Sprint(rs[0].Expressions[0].Value)
+	i, _ := strconv.Atoi(s)
+	return i
 }
