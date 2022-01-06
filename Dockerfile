@@ -18,6 +18,17 @@ ENV OPA_AZURE_POLICY=opa-azure-policy.rego
 ENV OPA_AWS_POLICY=opa-aws-policy.rego
 ENV OPA_REGO_QUERY=data.terraform.analysis.authz
 
+RUN apk add --no-cache curl git alpine-sdk
+
+RUN curl -SL "https://github.com/aquasecurity/tfsec/releases/download/v0.63.1/tfsec-linux-amd64" --output tfsec && \
+    chmod +x tfsec && \
+    mv tfsec /usr/local/bin
+
+RUN curl -SL "https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip" --output terraform.zip && \
+    unzip "terraform.zip" && \
+    mv terraform /usr/local/bin && \
+    rm terraform.zip
+
 WORKDIR /terraform-plan-validator
 
 COPY app.env ./app.env
