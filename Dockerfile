@@ -18,6 +18,8 @@ ENV OPA_AZURE_POLICY=opa-azure-policy.rego
 ENV OPA_AWS_POLICY=opa-aws-policy.rego
 ENV OPA_REGO_QUERY=data.terraform.analysis.authz
 
+RUN apk add --no-cache curl git alpine-sdk
+
 WORKDIR /terraform-plan-validator
 
 COPY app.env ./app.env
