@@ -30,9 +30,9 @@ docker pull bradmccoydev/terraform-plan-validator:latest
 docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check --planFileName "delete-rg-test.json" --cloudProvider "azure"
 ```
 
-
-
 ### Variables
+
+For variables we are using viper. You can set the following environment variables to change the defaults.
 
 | Variable | Value |
 | --- | --- |
