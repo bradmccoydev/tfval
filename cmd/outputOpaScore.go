@@ -17,7 +17,7 @@ var (
 	outputOpaScoreCmd = &cobra.Command{
 		Use:   "opascore",
 		Short: "get opa score",
-		Long:  `Get the OPA score report`,
+		Long:  `Gets the OPA score report`,
 		Run: func(cmd *cobra.Command, args []string) {
 			result := outputOpaScore(args, *cfg)
 			fmt.Println(result)

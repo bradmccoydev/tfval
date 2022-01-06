@@ -1,27 +1,36 @@
 ![passing](https://github.com/bradmccoydev/terraform-plan-validator/actions/workflows/ci.yml/badge.svg) [![Go Report Card](https://goreportcard.com/badge/github.com/bradmccoydev/terraform-plan-validator)](https://goreportcard.com/report/github.com/bradmccoydev/terraform-plan-validator) ![GitHub](https://img.shields.io/github/license/bradmccoydev/terraform-plan-validator) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/bradmccoydev/terraform-plan-validator)
+
 # Terraform Plan Validator
-Validates Terraform Plans using TFSEC and OPA
+This tool validates Terraform Plans it has been developed in golang as a wrapper around TFSEC and OPA to provide guardrails when deploying in CI/CD pipelines.
 
-# Commands
-go run main.go check --planFileName "delete-rg-test.json" --CloudProvider "azure"
+### Command Description
 
-go run main.go opascore --planFileName "delete-rg-test.json" --cloudProvider "azure"
+| Command | Parameters |
+| --- | --- |
+| check | Check if the plan passes Policy |
+| opascore | Gets the OPA score report |
+| tfsec | Outputs TfSec vulnerability report |
+| sendreport | Sends Terraform validation Report to slack |
 
-env GOOS=linux GOARCH=amd64 go build -o terraform-plan-validator-amd64
+### Commands Parameters
 
-# Docker
+| Command | Parameters |
+| --- | --- |
+| check | --planFileName "delete-rg-test.json" --cloudProvider "azure" |
+| opascore | --planFileName "delete-rg-test.json" --cloudProvider "azure" |
+| tfsec | --planFileName "delete-rg-test.json" --cloudProvider "azure" |
+| sendreport | --planFileName "delete-rg-test.json" --cloudProvider "azure" |
+
+### Docker
 ``` 
-docker push bradmccoydev/terraform-plan-validator
 docker pull bradmccoydev/terraform-plan-validator:latest
 ```
 
 ```
-docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check --PlanFileName "delete-rg-test.json" --CloudProvider "azure"
+docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check --planFileName "delete-rg-test.json" --cloudProvider "azure"
 ```
 
-```
-docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest sendreport --prNumber "$test" --repoFullUrl "http://www.google.com" --fileName "./mock.json" --slackWebhook "webhook"
-```
+
 
 ### Variables
 
@@ -33,11 +42,13 @@ docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest sendreport --pr
 | OPA_REGO_QUERY | data.terraform.analysis.authz |
 | TFSEC_MAX_SEVERITY | ["LOW", "MEDIUM", "CRITICAL"] |
 
-Maintainers:
+### Maintainers:
 * Brad McCoy ([@bradmccoydev](https://github.com/bradmccoydev)), Moula
 * Ben Poh ([@benhpoh](https://github.com/benhpoh)), Moula
 * Aman Tur ([@amantur](https://github.com/amantur)), Moula
 
-# License
+### Contributors:
+
+### License
 
 Terraform Plan Validator is released under the Apache 2.0 license. See [LICENSE.txt](https://github.com/bradmccoydev/terraform-plan-validator/blob/main/LICENSE)

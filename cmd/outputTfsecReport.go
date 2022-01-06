@@ -18,7 +18,7 @@ var (
 	outputtfsecCmd = &cobra.Command{
 		Use:   "tfsec",
 		Short: "get tfsec report",
-		Long:  `Get TfSec vulnerability report`,
+		Long:  `Outputs TfSec vulnerability report`,
 		Run: func(cmd *cobra.Command, args []string) {
 			result := outputTfsec(args, *cfg)
 			fmt.Println(result)

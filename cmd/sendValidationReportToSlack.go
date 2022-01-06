@@ -23,7 +23,7 @@ var (
 	sendValidationReportToSlackCmd = &cobra.Command{
 		Use:   "sendreport",
 		Short: "Send Validation Report",
-		Long:  `Send Terraform  validation Report to slack`,
+		Long:  `Send Terraform validation Report to slack`,
 		Run: func(cmd *cobra.Command, args []string) {
 			err := sendValidationReportToSlack(args)
 			if err != nil {
