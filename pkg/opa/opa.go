@@ -37,10 +37,6 @@ func CheckIfPlanPassesOpaPolicy(plan []byte, cloudProvider string, cfg config.Co
 		fmt.Println(err)
 	}
 
-	a := rs[0]
-
-	print(a.Expressions)
-
 	return rs.Allowed()
 }
 
