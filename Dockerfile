@@ -37,5 +37,3 @@ COPY app.env /opt/atlassian/pipelines/agent/build
 
 COPY --from=build /terraform-plan-validator terraform-plan-validator
 COPY --from=build terraform-plan-validator /usr/bin/terraform-plan-validator
-
-ENTRYPOINT [ "./terraform-plan-validator" ]
