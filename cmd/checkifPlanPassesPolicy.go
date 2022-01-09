@@ -18,7 +18,7 @@ var (
 	checkifPlanPassesPolicyCmd = &cobra.Command{
 		Use:   "check",
 		Short: "check If plan passes policy",
-		Long:  `Check if plan passes Policy`,
+		Long:  `Check if the plan passes Policy`,
 		Run: func(cmd *cobra.Command, args []string) {
 			result := checkifPlanPassesPolicy(args, *cfg)
 			fmt.Println(result)
