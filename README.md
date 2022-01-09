@@ -47,7 +47,10 @@ For variables we are using viper. You can set the following environment variable
 * Ben Poh ([@benhpoh](https://github.com/benhpoh)), Moula
 * Aman Tur ([@amantur](https://github.com/amantur)), Moula
 
-### Contributors:
+## Thanks to all the contributors ❤️
+<a href = "https://github.com/bradmccoydev/terraform-plan-validator/graphs/contributors">
+  <img src = "https://contrib.rocks/image?repo=bradmccoydev/terraform-plan-validator"/>
+</a>
 
 ### License
 
