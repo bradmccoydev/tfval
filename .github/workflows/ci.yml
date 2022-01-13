@@ -24,7 +24,8 @@ jobs:
     - name: Test
       run: go test -v ./...
       env:
-        OPA_AZURE_POLICY: ./../../opa-azure-policy.rego  
+        OPA_AZURE_POLICY: ./../../policies/opa-azure-policy.rego
+        OPA_GCP_POLICY: ./../../policies/opa-gcp-policy.rego  
     
     - name: Run GoReleaser
       uses: goreleaser/goreleaser-action@v2
