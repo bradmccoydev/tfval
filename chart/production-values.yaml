@@ -2,7 +2,7 @@ replicaCount: 1
 
 image: 
   repository: "bradmccoydev/terraform-plan-validator"
-  tag: "68d1f310471d5bd5b09b088b0a5a0da995b8b9bf"
+  tag: "26aa6ab95f0b62ed0351a0d5aab634fb621eb229"
   pullPolicy: Always
 
   publicUrl: "bradmccoydev.io"
