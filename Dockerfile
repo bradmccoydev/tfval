@@ -32,7 +32,8 @@ RUN curl -SL "https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_l
 WORKDIR /terraform-plan-validator
 
 COPY app.env ./app.env
-COPY opa-azure-policy.rego ./opa-azure-policy.rego
+COPY policies/opa-azure-policy.rego ./opa-azure-policy.rego
+COPY policies/opa-gcp-policy.rego ./opa-gcp-policy.rego
 COPY app.env /opt/atlassian/pipelines/agent/build
 
 COPY --from=build /terraform-plan-validator terraform-plan-validator
