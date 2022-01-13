@@ -15,26 +15,78 @@ max_acceptable_score = 2
 # weights assigned for each operation on each resource-type
 weights = {
     # CRITICAL RESOURCES - Any changes require human cross check
-    "google_container_cluster": critical_resource_score,
+    "azurerm_mssql_server": critical_resource_score,
+    "azurerm_mssql_database": critical_resource_score,
+    "azurerm_sql_failover_group": critical_resource_score,
+    "azurerm_servicebus_namespace": critical_resource_score,
+    "azurerm_servicebus_queue": critical_resource_score,
+    "azurerm_servicebus_topic": critical_resource_score,
+    "azurerm_servicebus_subscription": critical_resource_score,
+    "azurerm_virtual_network": critical_resource_score,
+    "azurerm_subnet": critical_resource_score,
+    "azurerm_key_vault_secret": critical_resource_score,
 
     # IMPORTANT RESOURCES - Minor modifications acceptable. Deletion prohibited.
-    "google_container_node_pool": important_resource_score,
+    "azurerm_app_service_plan": important_resource_score,
+    "azurerm_container_registry": important_resource_score,
+    "azurerm_data_factory": important_resource_score,
+    "azurerm_databricks_workspace": important_resource_score,
+    "azurerm_key_vault": important_resource_score,
+    "azurerm_notification_hub_namespace": important_resource_score,
+    "azurerm_resource_group": important_resource_score,
+    "azurerm_storage_account": important_resource_score,
+    "azurerm_nat_gateway": important_resource_score,
+    "azurerm_kubernetes_cluster": important_resource_score,
+    "azurerm_kubernetes_cluster_node_pool": important_resource_score,
 
     # LOW RISK - Generally allowed.
-    "google_pubsub_subscription": lowrisk_resource_score,
+    "azurerm_application_insights": lowrisk_resource_score,
+    "azurerm_app_service": lowrisk_resource_score,
+    "azurerm_app_service_slot": lowrisk_resource_score,
+    "azurerm_function_app": lowrisk_resource_score,
+    "azurerm_function_app_slot": lowrisk_resource_score,
+    "azurerm_key_vault_access_policy": lowrisk_resource_score,
+    "azurerm_log_analytics_workspace": lowrisk_resource_score,
+    "azurerm_storage_container": lowrisk_resource_score,
 }
 
 
 # Consider exactly these resource types in calculations
 resource_types = {
     # CRITICAL RESOURCES
-    "google_container_cluster",
+    "azurerm_mssql_server",
+    "azurerm_mssql_database",
+    "azurerm_sql_failover_group",
+    "azurerm_servicebus_namespace",
+    "azurerm_servicebus_queue",
+    "azurerm_servicebus_topic",
+    "azurerm_servicebus_subscription",
+    "azurerm_virtual_network",
+    "azurerm_subnet",
+    "azurerm_key_vault_secret",
 
     # IMPORTANT RESOURCES
-    "google_container_node_pool",
+    "azurerm_app_service_plan",
+    "azurerm_container_registry",
+    "azurerm_data_factory",
+    "azurerm_databricks_workspace",
+    "azurerm_key_vault",
+    "azurerm_notification_hub_namespace",
+    "azurerm_resource_group",
+    "azurerm_storage_account",
+    "azurerm_nat_gateway",
+    "azurerm_kubernetes_cluster",
+    "azurerm_kubernetes_cluster_node_pool",
 
     # LOW RISK RESOURCES
-    "google_pubsub_subscription",
+    "azurerm_application_insights",
+    "azurerm_app_service",
+    "azurerm_app_service_slot",
+    "azurerm_function_app",
+    "azurerm_function_app_slot",
+    "azurerm_key_vault_access_policy",
+    "azurerm_log_analytics_workspace",
+    "azurerm_storage_container",
 }
 
 #########
