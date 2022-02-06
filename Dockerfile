@@ -35,6 +35,7 @@ COPY app.env ./app.env
 COPY policies/opa-azure-policy.rego ./opa-azure-policy.rego
 COPY policies/opa-gcp-policy.rego ./opa-gcp-policy.rego
 COPY app.env /opt/atlassian/pipelines/agent/build
+COPY delete-rg-test.json ./delete-rg-test.json
 
 COPY --from=build /terraform-plan-validator terraform-plan-validator
 COPY --from=build terraform-plan-validator /usr/bin/terraform-plan-validator
