@@ -29,6 +29,8 @@ RUN curl -SL "https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_l
     mv terraform /usr/local/bin && \
     rm terraform.zip
 
+RUN curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
+
 WORKDIR /terraform-plan-validator
 
 COPY app.env ./app.env
