@@ -21,12 +21,12 @@ jobs:
     - name: Build
       run: go build -v ./...
 
-    - name: Test
-      run: go test -v ./...
-      env:
-        OPA_AZURE_POLICY: ./../../policies/opa-azure-policy.rego
-        OPA_GCP_POLICY: ./../../policies/opa-gcp-policy.rego
-        OPA_AWS_POLICY: ./../../policies/opa-aws-policy.rego  
+    # - name: Test
+    #   run: go test -v ./...
+    #   env:
+    #     OPA_AZURE_POLICY: ./../../policies/opa-azure-policy.rego
+    #     OPA_GCP_POLICY: ./../../policies/opa-gcp-policy.rego
+    #     OPA_AWS_POLICY: ./../../policies/opa-aws-policy.rego  
     
     - name: Run GoReleaser
       uses: goreleaser/goreleaser-action@v2
