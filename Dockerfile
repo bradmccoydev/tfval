@@ -20,14 +20,18 @@ ENV OPA_REGO_QUERY=data.terraform.analysis.authz
 
 RUN apk add --no-cache curl git alpine-sdk
 
-RUN curl -SL "https://github.com/aquasecurity/tfsec/releases/download/v0.63.1/tfsec-linux-amd64" --output tfsec && \
+RUN curl -SL "https://github.com/aquasecurity/tfsec/releases/download/v1.20.0/tfsec-linux-amd64" --output tfsec && \    
     chmod +x tfsec && \
     mv tfsec /usr/local/bin
 
-RUN curl -SL "https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip" --output terraform.zip && \
+RUN curl -SL "https://releases.hashicorp.com/terraform/1.1.9/terraform_1.1.9_linux_amd64.zip" --output terraform.zip && \
     unzip "terraform.zip" && \
     mv terraform /usr/local/bin && \
     rm terraform.zip
+
+RUN curl -SL "https://github.com/gruntwork-io/terragrunt/releases/download/v0.36.10/terragrunt_linux_amd64" --output terragrunt && \
+    chmod u+x terragrunt && \
+    mv terragrunt /usr/local/bin
 
 RUN curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
 
