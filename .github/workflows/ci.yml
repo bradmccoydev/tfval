@@ -75,10 +75,3 @@ jobs:
         git commit -m "🤖 update image tag with $GITHUB_SHA"
         git push
 
-    - name: Notify Slack
-      id: slack
-      uses: slackapi/slack-github-action@v1.18.0
-      if: always()
-      with:
-        channel-id: argo-notifications
-        payload: "{\"channel\": \"#argo-notifications\", \"username\": \"githubactions\", \"text\": \"bradmccoydev/terraform-plan-validator:${{ github.sha }}\"}"
