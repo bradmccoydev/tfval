@@ -11,8 +11,8 @@ import (
 )
 
 var (
-	opaScorePlanFileName  string
-	opaScoreCloudProvider string
+	opaScorePlanFileName string
+	opaPolicyLocation    string
 
 	outputOpaScoreCmd = &cobra.Command{
 		Use:   "opascore",
@@ -28,7 +28,7 @@ var (
 func init() {
 	rootCmd.AddCommand(outputOpaScoreCmd)
 	outputOpaScoreCmd.PersistentFlags().StringVarP(&opaScorePlanFileName, "planFileName", "p", opaScorePlanFileName, "Plan file Name")
-	outputOpaScoreCmd.PersistentFlags().StringVarP(&opaScoreCloudProvider, "cloudProvider", "c", opaScoreCloudProvider, "Cloud Provider")
+	outputOpaScoreCmd.PersistentFlags().StringVarP(&opaPolicyLocation, "policyLocation", "c", opaPolicyLocation, "Cloud Provider")
 }
 
 func outputOpaScore(args []string, cfg util.Config) int {
@@ -37,6 +37,6 @@ func outputOpaScore(args []string, cfg util.Config) int {
 		fmt.Println(err)
 	}
 
-	opaScore := opa.GetOpaScore(plan, opaScoreCloudProvider, cfg)
+	opaScore := opa.GetOpaScore(plan, opaPolicyLocation, cfg)
 	return opaScore
 }

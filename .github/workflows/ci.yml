@@ -20,13 +20,6 @@ jobs:
 
     - name: Build
       run: go build -v ./...
-
-    # - name: Test
-    #   run: go test -v ./...
-    #   env:
-    #     OPA_AZURE_POLICY: ./../../policies/opa-azure-policy.rego
-    #     OPA_GCP_POLICY: ./../../policies/opa-gcp-policy.rego
-    #     OPA_AWS_POLICY: ./../../policies/opa-aws-policy.rego  
     
     - name: Run GoReleaser
       uses: goreleaser/goreleaser-action@v2
@@ -77,8 +70,9 @@ jobs:
 
     - name: Notify Slack
       id: slack
-      uses: slackapi/slack-github-action@v1.18.0
-      if: always()
+      uses: slackapi/slack-github-action@v1.19.0
       with:
         channel-id: argo-notifications
         payload: "{\"channel\": \"#argo-notifications\", \"username\": \"githubactions\", \"text\": \"bradmccoydev/terraform-plan-validator:${{ github.sha }}\"}"
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

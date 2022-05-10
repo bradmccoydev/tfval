@@ -29,7 +29,6 @@ var (
 func init() {
 	rootCmd.AddCommand(outputtfsecCmd)
 	outputtfsecCmd.PersistentFlags().StringVarP(&tfsecPlanFileName, "planFileName", "p", tfsecPlanFileName, "Plan file Name")
-	outputtfsecCmd.PersistentFlags().StringVarP(&tfsecCloudProvider, "cloudProvider", "c", tfsecCloudProvider, "Cloud Provider")
 }
 
 func outputTfsec(args []string, cfg util.Config) model.Vulnerabilities {
