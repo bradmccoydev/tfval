@@ -2,20 +2,24 @@ module github.com/bradmccoydev/terraform-plan-validator
 
 go 1.17
 
-require github.com/open-policy-agent/opa v0.33.1
+require (
+	github.com/cloudevents/sdk-go/v2 v2.6.1
+	github.com/hashicorp/go-version v1.4.0
+	github.com/hashicorp/hc-install v0.3.1
+	github.com/hashicorp/terraform-exec v0.15.0
+	github.com/open-policy-agent/opa v0.33.1
+	github.com/spf13/cobra v1.2.1
+	github.com/spf13/viper v1.9.0
+)
 
 require (
 	github.com/OneOfOne/xxhash v1.2.8 // indirect
-	github.com/cloudevents/sdk-go/v2 v2.6.1 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
-	github.com/hashicorp/go-version v1.4.0 // indirect
-	github.com/hashicorp/hc-install v0.3.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/hashicorp/terraform-exec v0.15.0 // indirect
 	github.com/hashicorp/terraform-json v0.13.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.11 // indirect
@@ -28,10 +32,8 @@ require (
 	github.com/rcrowley/go-metrics v0.0.0-20200313005456-10cdbea86bc0 // indirect
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
-	github.com/spf13/cobra v1.2.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.9.0 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
