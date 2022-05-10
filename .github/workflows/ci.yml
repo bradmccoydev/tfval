@@ -74,4 +74,3 @@ jobs:
         git add chart/${{ env.ENVIRONMENT }}-values.yaml
         git commit -m "🤖 update image tag with $GITHUB_SHA"
         git push
-
