@@ -1,7 +1,7 @@
 ![passing](https://github.com/bradmccoydev/terraform-plan-validator/actions/workflows/ci.yml/badge.svg) [![Go Report Card](https://goreportcard.com/badge/github.com/bradmccoydev/terraform-plan-validator)](https://goreportcard.com/report/github.com/bradmccoydev/terraform-plan-validator) ![GitHub](https://img.shields.io/github/license/bradmccoydev/terraform-plan-validator) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/bradmccoydev/terraform-plan-validator)
 
 # Terraform Plan Validator
-This tool validates Terraform Plans it has been developed in golang as a wrapper around TFSEC and OPA to provide guardrails when deploying in CI/CD pipelines.
+This tool validates Terraform Plans it has been developed in golang as a wrapper around TFSEC and OPA to provide guardrails when deploying in CI/CD pipelines. You can find the latest release at the release page
 
 ### Command Description
 
