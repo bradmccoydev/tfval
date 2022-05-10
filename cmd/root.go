@@ -17,7 +17,7 @@ var rootCmd = &cobra.Command{
 	Use:     "Terraform Plan Validator",
 	Short:   "Terraform Plan Validator",
 	Long:    `Terraform Plan Validator`,
-	Version: "0.0.1",
+	Version: "0.0.2",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -43,9 +43,6 @@ func initConfig() {
 	}
 
 	cfg = &config.Config{}
-	cfg.OpaGcpPolicy = conf.OpaGcpPolicy
-	cfg.OpaAzurePolicy = conf.OpaAzurePolicy
-	cfg.OpaAwsPolicy = conf.OpaAwsPolicy
 	cfg.OpaRegoQuery = conf.OpaRegoQuery
 	cfg.TfsecMaxSeverity = conf.TfsecMaxSeverity
 }

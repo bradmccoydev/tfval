@@ -16,18 +16,15 @@ This tool validates Terraform Plans it has been developed in golang as a wrapper
 
 | Command | Parameters |
 | --- | --- |
-| check | --planFileName "delete-rg-test.json" --cloudProvider "azure" |
-| opascore | --planFileName "delete-rg-test.json" --cloudProvider "azure" |
-| tfsec | --planFileName "delete-rg-test.json" --cloudProvider "azure" |
-| sendreport | --planFileName "delete-rg-test.json" --cloudProvider "azure" |
+| tfsec | --planFileName "delete-rg-test.json" |
+| check | --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" |
+| opascore | --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" |
+| sendreport | --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" |
 
 ### Docker
-``` 
+```bash
 docker pull bradmccoydev/terraform-plan-validator:latest
-```
-
-```
-docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check --planFileName "delete-rg-test.json" --cloudProvider "azure"
+docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego"
 ```
 
 ### Variables
@@ -36,9 +33,6 @@ For variables we are using viper. You can set the following environment variable
 
 | Variable | Value |
 | --- | --- |
-| OPA_GCP_POLICY | opa-gcp-policy.rego |
-| OPA_AZURE_POLICY | opa-azure-policy.rego |
-| OPA_AWS_POLICY | opa-aws-policy.rego |
 | OPA_REGO_QUERY | data.terraform.analysis.authz |
 | TFSEC_MAX_SEVERITY | ["LOW", "MEDIUM", "CRITICAL"] |
 

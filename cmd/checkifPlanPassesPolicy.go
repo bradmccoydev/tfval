@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	planFileName  string
-	cloudProvider string
+	planFileName   string
+	policyLocation string
 
 	checkifPlanPassesPolicyCmd = &cobra.Command{
 		Use:   "check",
@@ -29,7 +29,7 @@ var (
 func init() {
 	rootCmd.AddCommand(checkifPlanPassesPolicyCmd)
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&planFileName, "planFileName", "p", planFileName, "Plan file Name")
-	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&cloudProvider, "cloudProvider", "c", cloudProvider, "Cloud Provider")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&policyLocation, "policyLocation", "c", policyLocation, "Policy Location")
 }
 
 func checkifPlanPassesPolicy(args []string, cfg util.Config) bool {
@@ -39,7 +39,7 @@ func checkifPlanPassesPolicy(args []string, cfg util.Config) bool {
 	}
 
 	passesTfsec := tfsec.CheckIfPlanPassesTfPolicy(plan, cfg)
-	passesOpa := opa.CheckIfPlanPassesOpaPolicy(plan, cloudProvider, cfg)
+	passesOpa := opa.CheckIfPlanPassesOpaPolicy(plan, policyLocation, cfg)
 
 	if passesOpa && passesTfsec {
 		return true
