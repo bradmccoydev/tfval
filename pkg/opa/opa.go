@@ -10,12 +10,7 @@ import (
 	"github.com/open-policy-agent/opa/rego"
 )
 
-func CheckIfPlanPassesOpaPolicy(plan []byte, cloudProvider string, cfg config.Config) bool {
-	policyLocation := cfg.OpaAzurePolicy
-	if cloudProvider == "gcp" {
-		policyLocation = cfg.OpaGcpPolicy
-	}
-
+func CheckIfPlanPassesOpaPolicy(plan []byte, policyLocation string, cfg config.Config) bool {
 	r := rego.New(
 		rego.Query(cfg.OpaRegoQuery),
 		rego.Load([]string{policyLocation}, nil))
@@ -40,14 +35,8 @@ func CheckIfPlanPassesOpaPolicy(plan []byte, cloudProvider string, cfg config.Co
 	return rs.Allowed()
 }
 
-func GetOpaScore(plan []byte, cloudProvider string, cfg config.Config) int {
-	policyLocation := cfg.OpaAzurePolicy
-	if cloudProvider == "gcp" {
-		policyLocation = cfg.OpaGcpPolicy
-	}
-
+func GetOpaScore(plan []byte, policyLocation string, cfg config.Config) int {
 	r := rego.New(
-		//rego.Query(cfg.OpaRegoQuery),
 		rego.Query("data.terraform.analysis.score"),
 		rego.Load([]string{policyLocation}, nil))
 
