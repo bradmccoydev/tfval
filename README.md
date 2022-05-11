@@ -19,7 +19,7 @@ This tool validates Terraform Plans it has been developed in golang as a wrapper
 | tfsec | --planFileName "delete-rg-test.json" |
 | check | --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" |
 | opascore | --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" |
-| sendreport | --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" |
+| sendreport | --fileName "delete-rg-test.json" --slackWebhook "*" --prNumber "1" --repoFullUrl "x"  |
 
 ### Docker
 ```bash

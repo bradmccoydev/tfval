@@ -38,7 +38,9 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag bradmccoydev/terraform-plan-validator:${{ github.sha }}
+      run: |- 
+        docker build . --file Dockerfile --tag bradmccoydev/terraform-plan-validator:${{ github.sha }}
+        docker build . --file Dockerfile --tag bradmccoydev/terraform-plan-validator:latest
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
@@ -51,7 +53,9 @@ jobs:
         severity: 'CRITICAL'
       
     - name: Docker Push
-      run: docker push bradmccoydev/terraform-plan-validator:${{ github.sha }}
+      run: |-
+        docker push bradmccoydev/terraform-plan-validator:${{ github.sha }}
+        docker push bradmccoydev/terraform-plan-validator:latest
 
     - name: update tag for terraform-plan-validator image on deployment
       run: |-
