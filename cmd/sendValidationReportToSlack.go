@@ -39,6 +39,7 @@ func init() {
 	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&repoFullUrl, "repoFullUrl", "r", repoFullUrl, "Full repo URL")
 	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&fileName, "fileName", "f", fileName, "Filename of the terraform plan")
 	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&slackWebhook, "slackWebhook", "s", slackWebhook, "The Slack Webhook")
+	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&tfsecMaxSeverity, "tfsecMaxSeverity", "t", tfsecMaxSeverity, "The TF Sec Max Severity")
 }
 
 func sendValidationReportToSlack(args []string) error {
@@ -56,11 +57,11 @@ func sendValidationReportToSlack(args []string) error {
 		body = fmt.Sprintf("%v%v", header, footer)
 
 		for _, element := range vulnerabilities.Results {
-			if element.Severity == "LOW" && (cfg.TfsecMaxSeverity == "LOW" || cfg.TfsecMaxSeverity == "MEDIUM") {
+			if element.Severity == "LOW" && (tfsecMaxSeverity == "LOW" || tfsecMaxSeverity == "MEDIUM") {
 				produceSlackBlockLineItem(element.Impact, element.Resolution)
-			} else if element.Severity == "MEDIUM" && cfg.TfsecMaxSeverity == "MEDIUM" {
+			} else if element.Severity == "MEDIUM" && tfsecMaxSeverity == "MEDIUM" {
 				produceSlackBlockLineItem(element.Impact, element.Resolution)
-			} else if element.Severity == "CRITICAL" && cfg.TfsecMaxSeverity == "CRITICAL" {
+			} else if element.Severity == "CRITICAL" && tfsecMaxSeverity == "CRITICAL" {
 				produceSlackBlockLineItem(element.Impact, element.Resolution)
 			}
 		}
@@ -69,6 +70,9 @@ func sendValidationReportToSlack(args []string) error {
 			client := &http.Client{}
 			body = fmt.Sprintf(`%v%v`, body, "]}")
 			req, err := http.NewRequest("POST", slackWebhook, strings.NewReader(body))
+			if err != nil {
+				log.Println("Http Error: ", err)
+			}
 
 			req.Header.Set("Content-Type", "application/json")
 			resp, err := client.Do(req)

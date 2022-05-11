@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 
 	opa "github.com/bradmccoydev/terraform-plan-validator/pkg/opa"
-	"github.com/bradmccoydev/terraform-plan-validator/util"
 
 	"github.com/spf13/cobra"
 )
@@ -19,7 +18,7 @@ var (
 		Short: "get opa score",
 		Long:  `Gets the OPA score report`,
 		Run: func(cmd *cobra.Command, args []string) {
-			result := outputOpaScore(args, *cfg)
+			result := outputOpaScore(args)
 			fmt.Println(result)
 		},
 	}
@@ -31,12 +30,12 @@ func init() {
 	outputOpaScoreCmd.PersistentFlags().StringVarP(&opaPolicyLocation, "policyLocation", "c", opaPolicyLocation, "Cloud Provider")
 }
 
-func outputOpaScore(args []string, cfg util.Config) int {
+func outputOpaScore(args []string) int {
 	plan, err := ioutil.ReadFile(opaScorePlanFileName)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	opaScore := opa.GetOpaScore(plan, opaPolicyLocation, cfg)
+	opaScore := opa.GetOpaScore(plan, opaPolicyLocation)
 	return opaScore
 }

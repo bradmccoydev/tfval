@@ -2,10 +2,7 @@ package terraform
 
 import (
 	"fmt"
-	"log"
 	"testing"
-
-	config "github.com/bradmccoydev/terraform-plan-validator/util"
 )
 
 func TestTerrformCli(t *testing.T) {
@@ -19,12 +16,8 @@ func TestTerrformCli(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		config, err := config.LoadConfig("./../../")
-		if err != nil {
-			log.Fatal("cannot load config:", err)
-		}
 
-		score := ProduceTerraformPlan(*config)
+		score := ProduceTerraformPlan()
 		fmt.Println(tc.name, score)
 	}
 }

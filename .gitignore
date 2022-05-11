@@ -15,6 +15,7 @@
 # vendor/
 
 delete-rg-test.json
+test.tfplan
 .vscode
 terraform-plan-validator-amd64
 go.sum
