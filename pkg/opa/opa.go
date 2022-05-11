@@ -6,13 +6,12 @@ import (
 	"fmt"
 	"strconv"
 
-	config "github.com/bradmccoydev/terraform-plan-validator/util"
 	"github.com/open-policy-agent/opa/rego"
 )
 
-func CheckIfPlanPassesOpaPolicy(plan []byte, policyLocation string, cfg config.Config) bool {
+func CheckIfPlanPassesOpaPolicy(plan []byte, policyLocation string, opaRegoQuery string) bool {
 	r := rego.New(
-		rego.Query(cfg.OpaRegoQuery),
+		rego.Query(opaRegoQuery),
 		rego.Load([]string{policyLocation}, nil))
 
 	ctx := context.Background()
@@ -35,7 +34,7 @@ func CheckIfPlanPassesOpaPolicy(plan []byte, policyLocation string, cfg config.C
 	return rs.Allowed()
 }
 
-func GetOpaScore(plan []byte, policyLocation string, cfg config.Config) int {
+func GetOpaScore(plan []byte, policyLocation string) int {
 	r := rego.New(
 		rego.Query("data.terraform.analysis.score"),
 		rego.Load([]string{policyLocation}, nil))

@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/bradmccoydev/terraform-plan-validator/model"
-	config "github.com/bradmccoydev/terraform-plan-validator/util"
 )
 
 func ProduceVulnerabilityReport(plan []byte) model.Vulnerabilities {
@@ -15,16 +14,16 @@ func ProduceVulnerabilityReport(plan []byte) model.Vulnerabilities {
 	return vulnerabilities
 }
 
-func CheckIfPlanPassesTfPolicy(plan []byte, cfg config.Config) bool {
+func CheckIfPlanPassesTfPolicy(plan []byte, tfsecMaxSeverity string) bool {
 	vulnerabilities := ProduceVulnerabilityReport(plan)
 	passesPolicy := true
 
-	if IsInvalidCategory(cfg.TfsecMaxSeverity) == true {
+	if IsInvalidCategory(tfsecMaxSeverity) {
 		fmt.Println("Invalid TFSEC Severity Category defaulting to LOW")
-		cfg.TfsecMaxSeverity = "LOW"
+		tfsecMaxSeverity = "LOW"
 	}
 
-	if cfg.TfsecMaxSeverity == "LOW" {
+	if tfsecMaxSeverity == "LOW" {
 		if len(vulnerabilities.Results) > 0 {
 			for _, element := range vulnerabilities.Results {
 				if element.Severity == "LOW" || element.Severity == "MEDIUM" || element.Severity == "CRITICAL" {
@@ -34,7 +33,7 @@ func CheckIfPlanPassesTfPolicy(plan []byte, cfg config.Config) bool {
 		}
 	}
 
-	if cfg.TfsecMaxSeverity == "MEDIUM" {
+	if tfsecMaxSeverity == "MEDIUM" {
 		if len(vulnerabilities.Results) > 0 {
 			for _, element := range vulnerabilities.Results {
 				if element.Severity == "MEDIUM" || element.Severity == "CRITICAL" {
@@ -44,7 +43,7 @@ func CheckIfPlanPassesTfPolicy(plan []byte, cfg config.Config) bool {
 		}
 	}
 
-	if cfg.TfsecMaxSeverity == "CRITICAL" {
+	if tfsecMaxSeverity == "CRITICAL" {
 		if len(vulnerabilities.Results) > 0 {
 			for _, element := range vulnerabilities.Results {
 				if element.Severity == "CRITICAL" {
@@ -57,9 +56,9 @@ func CheckIfPlanPassesTfPolicy(plan []byte, cfg config.Config) bool {
 	return passesPolicy
 }
 
-func OutputTfsecReport(tfsecJsonOutput []byte, cfg config.Config) model.Vulnerabilities {
+func OutputTfsecReport(tfsecJsonOutput []byte) model.Vulnerabilities {
 	vulnerabilities := ProduceVulnerabilityReport(tfsecJsonOutput)
-	
+
 	return vulnerabilities
 }
 

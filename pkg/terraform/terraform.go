@@ -5,14 +5,13 @@ import (
 	"fmt"
 	"log"
 
-	config "github.com/bradmccoydev/terraform-plan-validator/util"
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/hc-install/product"
 	"github.com/hashicorp/hc-install/releases"
 	"github.com/hashicorp/terraform-exec/tfexec"
 )
 
-func ProduceTerraformPlan(cfg config.Config) string {
+func ProduceTerraformPlan() string {
 	installer := &releases.ExactVersion{
 		Product: product.Terraform,
 		Version: version.Must(version.NewVersion("1.1.4")),

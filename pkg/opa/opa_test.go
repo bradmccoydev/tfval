@@ -2,13 +2,10 @@ package opa
 
 import (
 	"fmt"
-	"log"
 	"testing"
-
-	config "github.com/bradmccoydev/terraform-plan-validator/util"
 )
 
-func TestGetOpaScore(t *testing.T) {
+func TestGetOpaPolicy(t *testing.T) {
 	testCases := []struct {
 		policyLocation string
 		name           string
@@ -20,12 +17,9 @@ func TestGetOpaScore(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		config, err := config.LoadConfig("./../../")
-		if err != nil {
-			log.Fatal("cannot load config:", err)
-		}
-
-		score := CheckIfPlanPassesOpaPolicy([]byte(tc.plan), tc.policyLocation, *config)
+		score := GetOpaScore([]byte(tc.plan), tc.policyLocation)
 		fmt.Println(tc.name, score)
+		policy := CheckIfPlanPassesOpaPolicy([]byte(tc.plan), tc.policyLocation, "data.terraform.analysis.authz")
+		fmt.Println(tc.name, policy)
 	}
 }

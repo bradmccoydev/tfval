@@ -2,10 +2,7 @@ package tfsec
 
 import (
 	"fmt"
-	"log"
 	"testing"
-
-	config "github.com/bradmccoydev/terraform-plan-validator/util"
 )
 
 func TestGetTfScore(t *testing.T) {
@@ -18,12 +15,7 @@ func TestGetTfScore(t *testing.T) {
 		{"medium-severity", "{\"results\": [{\"rule_id\": \"azure-database-enable-audit\",\"legacy_rule_id\": \"AZU018\",\"rule_description\": \"Auditing should be enabled on Azure SQL Databases\",\"rule_provider\": \"azure\",\"impact\": \"Auditing provides valuable information about access and usage\",\"resolution\": \"Enable auditing on Azure SQL databases\",\"links\": [\"https://tfsec.dev/docs/azure/database/enable-audit#azure/database\",\"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/sql_server#extended_auditing_policy\",\"https://docs.microsoft.com/en-us/azure/azure-sql/database/auditing-overview\"],\"description\": \"Resource 'azurerm_mssql_server.default' does not have an extended audit policy configured.\",\"severity\": \"MEDIUM\",\"status\": \"failed\",\"location\": {\"filename\": \"/opt/atlassian/pipelines/agent/build/azurerm/azurerm_mssql_server/main.tf\",\"start_line\": 1,\"end_line\": 11}}]}", nil},
 	}
 	for _, tc := range testCases {
-		config, err := config.LoadConfig("./../../")
-		if err != nil {
-			log.Fatal("cannot load config:", err)
-		}
-
-		score := CheckIfPlanPassesTfPolicy([]byte(tc.plan), *config)
+		score := CheckIfPlanPassesTfPolicy([]byte(tc.plan), "CRITICAL")
 		fmt.Println(tc.name, score)
 	}
 }

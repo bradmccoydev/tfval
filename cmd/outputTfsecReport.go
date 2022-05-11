@@ -6,21 +6,19 @@ import (
 
 	"github.com/bradmccoydev/terraform-plan-validator/model"
 	tfsec "github.com/bradmccoydev/terraform-plan-validator/pkg/tfsec"
-	"github.com/bradmccoydev/terraform-plan-validator/util"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	tfsecPlanFileName  string
-	tfsecCloudProvider string
+	tfsecPlanFileName string
 
 	outputtfsecCmd = &cobra.Command{
 		Use:   "tfsec",
 		Short: "get tfsec report",
 		Long:  `Outputs TfSec vulnerability report`,
 		Run: func(cmd *cobra.Command, args []string) {
-			result := outputTfsec(args, *cfg)
+			result := outputTfsec(args)
 			fmt.Println(result)
 		},
 	}
@@ -31,13 +29,13 @@ func init() {
 	outputtfsecCmd.PersistentFlags().StringVarP(&tfsecPlanFileName, "planFileName", "p", tfsecPlanFileName, "Plan file Name")
 }
 
-func outputTfsec(args []string, cfg util.Config) model.Vulnerabilities {
+func outputTfsec(args []string) model.Vulnerabilities {
 	plan, err := ioutil.ReadFile(tfsecPlanFileName)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	tfsec := tfsec.OutputTfsecReport(plan, cfg)
+	tfsec := tfsec.OutputTfsecReport(plan)
 	println(fmt.Sprint(tfsec))
 	return tfsec
 }
