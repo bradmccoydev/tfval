@@ -24,7 +24,7 @@ This tool validates Terraform Plans it has been developed in golang as a wrapper
 ### Docker
 ```bash
 docker pull bradmccoydev/terraform-plan-validator:latest
-docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego"
+docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" --tfsecMaxSeverity "CRITICAL" --opaRegoQuery "data.terraform.analysis.authz"
 ```
 
 ### Variables

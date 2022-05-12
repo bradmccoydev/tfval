@@ -32,6 +32,7 @@ func init() {
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&policyLocation, "policyLocation", "c", policyLocation, "Policy Location")
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&tfsecMaxSeverity, "tfsecMaxSeverity", "s", tfsecMaxSeverity, "The TF Sec Max Severity")
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&opaRegoQuery, "opaRegoQuery", "o", opaRegoQuery, "The TF Sec Max Severity")
+	//checkifPlanPassesPolicyCmd.PersistentFlags().StringArrayVarP()
 }
 
 func checkifPlanPassesPolicy(args []string) bool {
