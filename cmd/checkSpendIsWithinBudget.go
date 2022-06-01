@@ -1,24 +1,18 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
-	"io/ioutil"
 
-	opa "github.com/bradmccoydev/terraform-plan-validator/pkg/opa"
-	tfsec "github.com/bradmccoydev/terraform-plan-validator/pkg/tfsec"
-
+	"github.com/bradmccoydev/terraform-plan-validator/model"
 	"github.com/spf13/cobra"
 )
 
 var (
-	planFileName   string
-	policyLocation string
-	opaRegoQuery   string
-
 	checkSpendIsWithinBudgetCmd = &cobra.Command{
-		Use:   "check",
-		Short: "check If plan passes policy",
-		Long:  `Check if the plan passes Policy`,
+		Use:   "cost",
+		Short: "check if spend is within Budget",
+		Long:  `Check if spend is within Budget`,
 		Run: func(cmd *cobra.Command, args []string) {
 			result := checkSpendIsWithinBudget(args)
 			fmt.Println(result)
@@ -28,24 +22,20 @@ var (
 
 func init() {
 	rootCmd.AddCommand(checkSpendIsWithinBudgetCmd)
-	checkSpendIsWithinBudgetCmd.PersistentFlags().StringVarP(&planFileName, "planFileName", "p", planFileName, "Plan file Name")
-	checkSpendIsWithinBudgetCmd.PersistentFlags().StringVarP(&policyLocation, "policyLocation", "c", policyLocation, "Policy Location")
-	checkSpendIsWithinBudgetCmd.PersistentFlags().StringVarP(&tfsecMaxSeverity, "tfsecMaxSeverity", "s", tfsecMaxSeverity, "The TF Sec Max Severity")
-	checkSpendIsWithinBudgetCmd.PersistentFlags().StringVarP(&opaRegoQuery, "opaRegoQuery", "o", opaRegoQuery, "The TF Sec Max Severity")
-	//checkSpendIsWithinBudgetCmd.PersistentFlags().StringArrayVarP()
+	checkSpendIsWithinBudgetCmd.PersistentFlags().StringVarP(&opaConfig, "opaConfig", "p", opaConfig, "OPA Config")
 }
 
 func checkSpendIsWithinBudget(args []string) bool {
-	plan, err := ioutil.ReadFile(planFileName)
-	if err != nil {
+	b := []byte(opaConfig)
+	var o model.OpaConfig
+
+	if err := json.Unmarshal(b, &o); err != nil {
 		fmt.Println(err)
 	}
 
-	passesTfsec := tfsec.CheckIfPlanPassesTfPolicy(plan, tfsecMaxSeverity)
-	passesOpa := opa.CheckIfPlanPassesOpaPolicy(plan, policyLocation, opaRegoQuery)
-
-	if passesOpa && passesTfsec {
-		return true
+	for _, element := range o {
+		fmt.Println(element.Location)
+		fmt.Println(element.Query)
 	}
 
 	return false

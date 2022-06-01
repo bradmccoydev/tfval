@@ -11,15 +11,17 @@ This tool validates Terraform Plans it has been developed in golang as a wrapper
 | opascore | Gets the OPA score report |
 | tfsec | Outputs TfSec vulnerability report |
 | sendreport | Sends Terraform validation Report to slack |
+| costs | Matches Infracost and Budget |
 
 ### Commands Parameters
 
 | Command | Parameters |
 | --- | --- |
-| tfsec | --planFileName "delete-rg-test.json" |
-| check | --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" --tfsecMaxSeverity "CRITICAL" --opaRegoQuery "data.terraform.analysis.authz" |
+| tfsec | --tfsecReport "delete-rg-test.json" --tfsecMaxSeverity "CRITICAL" |
+| check | --planFileName "policies/delete-rg-test.json" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.authz\"}]" |
 | opascore | --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" |
 | sendreport | --fileName "delete-rg-test.json" --slackWebhook "*" --prNumber "1" --repoFullUrl "x" --tfsecMaxSeverity "MEDIUM"  |
+| cost | --fileName "policies/delete-rg-test.json" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.authz\"}]"  |
 
 ### Docker
 ```bash

@@ -11,9 +11,7 @@ import (
 )
 
 var (
-	tfsecPlanFileName string
-
-	outputtfsecCmd = &cobra.Command{
+	outputTfSecCmd = &cobra.Command{
 		Use:   "tfsec",
 		Short: "get tfsec report",
 		Long:  `Outputs TfSec vulnerability report`,
@@ -25,12 +23,12 @@ var (
 )
 
 func init() {
-	rootCmd.AddCommand(outputtfsecCmd)
-	outputtfsecCmd.PersistentFlags().StringVarP(&tfsecPlanFileName, "planFileName", "p", tfsecPlanFileName, "Plan file Name")
+	rootCmd.AddCommand(outputTfSecCmd)
+	outputTfSecCmd.PersistentFlags().StringVarP(&planFileName, "planFileName", "p", planFileName, "Plan file Name")
 }
 
 func outputTfsec(args []string) model.Vulnerabilities {
-	plan, err := ioutil.ReadFile(tfsecPlanFileName)
+	plan, err := ioutil.ReadFile(planFileName)
 	if err != nil {
 		fmt.Println(err)
 	}
