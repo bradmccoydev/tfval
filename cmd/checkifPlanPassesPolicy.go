@@ -1,20 +1,17 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 
+	"github.com/bradmccoydev/terraform-plan-validator/model"
 	opa "github.com/bradmccoydev/terraform-plan-validator/pkg/opa"
-	tfsec "github.com/bradmccoydev/terraform-plan-validator/pkg/tfsec"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	planFileName   string
-	policyLocation string
-	opaRegoQuery   string
-
 	checkifPlanPassesPolicyCmd = &cobra.Command{
 		Use:   "check",
 		Short: "check If plan passes policy",
@@ -28,11 +25,8 @@ var (
 
 func init() {
 	rootCmd.AddCommand(checkifPlanPassesPolicyCmd)
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&opaConfig, "opaConfig", "o", opaConfig, "OPA Config")
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&planFileName, "planFileName", "p", planFileName, "Plan file Name")
-	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&policyLocation, "policyLocation", "c", policyLocation, "Policy Location")
-	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&tfsecMaxSeverity, "tfsecMaxSeverity", "s", tfsecMaxSeverity, "The TF Sec Max Severity")
-	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&opaRegoQuery, "opaRegoQuery", "o", opaRegoQuery, "The TF Sec Max Severity")
-	//checkifPlanPassesPolicyCmd.PersistentFlags().StringArrayVarP()
 }
 
 func checkifPlanPassesPolicy(args []string) bool {
@@ -41,12 +35,21 @@ func checkifPlanPassesPolicy(args []string) bool {
 		fmt.Println(err)
 	}
 
-	passesTfsec := tfsec.CheckIfPlanPassesTfPolicy(plan, tfsecMaxSeverity)
-	passesOpa := opa.CheckIfPlanPassesOpaPolicy(plan, policyLocation, opaRegoQuery)
+	b := []byte(opaConfig)
+	var o model.OpaConfig
 
-	if passesOpa && passesTfsec {
-		return true
+	if err := json.Unmarshal(b, &o); err != nil {
+		fmt.Println(err)
 	}
 
-	return false
+	passesOpa := true
+
+	for _, policy := range o {
+		passesOpa = opa.CheckIfPlanPassesOpaPolicy(plan, policy.Location, policy.Query)
+		if passesOpa == false {
+			break
+		}
+	}
+
+	return passesOpa
 }

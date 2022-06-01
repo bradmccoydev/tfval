@@ -69,6 +69,8 @@ score = s {
     s := sum(all)
 }
 
+
+
 # Whether there is any change to IAM
 touches_iam {
     all := resources["aws_iam"]

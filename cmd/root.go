@@ -9,13 +9,16 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var (
-	tfsecMaxSeverity string
+	tfsecReportLocation string
+	tfsecMaxSeverity    string
+	planFileName        string
+	opaConfig           string
 
 	rootCmd = &cobra.Command{
-		Use:     "Terraform Plan Validator",
-		Short:   "Terraform Plan Validator",
-		Long:    `Terraform Plan Validator`,
-		Version: "0.0.2",
+		Use:     "tfval",
+		Short:   "Terraform Validator",
+		Long:    `Terraform Validator`,
+		Version: "1.1.2",
 	}
 )
 

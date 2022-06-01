@@ -11,15 +11,17 @@ This tool validates Terraform Plans it has been developed in golang as a wrapper
 | opascore | Gets the OPA score report |
 | tfsec | Outputs TfSec vulnerability report |
 | sendreport | Sends Terraform validation Report to slack |
+| costs | Matches Infracost and Budget |
 
 ### Commands Parameters
 
 | Command | Parameters |
 | --- | --- |
-| tfsec | --planFileName "delete-rg-test.json" |
-| check | --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" --tfsecMaxSeverity "CRITICAL" --opaRegoQuery "data.terraform.analysis.authz" |
+| tfsec | --tfsecReport "delete-rg-test.json" --tfsecMaxSeverity "CRITICAL" |
+| check | --planFileName "policies/delete-rg-test.json" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.authz\"}]" |
 | opascore | --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" |
 | sendreport | --fileName "delete-rg-test.json" --slackWebhook "*" --prNumber "1" --repoFullUrl "x" --tfsecMaxSeverity "MEDIUM"  |
+| cost | --fileName "policies/delete-rg-test.json" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.authz\"}]"  |
 
 ### Docker
 ```bash
@@ -39,7 +41,6 @@ For variables we are using viper. You can set the following environment variable
 ### Maintainers:
 * Brad McCoy ([@bradmccoydev](https://github.com/bradmccoydev)), Moula
 * Ben Poh ([@benhpoh](https://github.com/benhpoh)), Moula
-* Aman Tur ([@amantur](https://github.com/amantur)), Moula
 
 ## Thanks to all the contributors ❤️
 <a href = "https://github.com/bradmccoydev/terraform-plan-validator/graphs/contributors">
@@ -49,3 +50,7 @@ For variables we are using viper. You can set the following environment variable
 ### License
 
 Terraform Plan Validator is released under the Apache 2.0 license. See [LICENSE.txt](https://github.com/bradmccoydev/terraform-plan-validator/blob/main/LICENSE)
+
+opa eval --fail-defined --format raw --input delete-rg-test.json --data opa-azure-policy.rego 'data.terraform.analysis.authz]'
+
+opa eval --fail-defined --format raw --input delete-rg-test.json --data tags-policy.rego 'data.terraform.common.deny[x]'
