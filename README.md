@@ -39,7 +39,6 @@ For variables we are using viper. You can set the following environment variable
 ### Maintainers:
 * Brad McCoy ([@bradmccoydev](https://github.com/bradmccoydev)), Moula
 * Ben Poh ([@benhpoh](https://github.com/benhpoh)), Moula
-* Aman Tur ([@amantur](https://github.com/amantur)), Moula
 
 ## Thanks to all the contributors ❤️
 <a href = "https://github.com/bradmccoydev/terraform-plan-validator/graphs/contributors">
@@ -49,3 +48,7 @@ For variables we are using viper. You can set the following environment variable
 ### License
 
 Terraform Plan Validator is released under the Apache 2.0 license. See [LICENSE.txt](https://github.com/bradmccoydev/terraform-plan-validator/blob/main/LICENSE)
+
+opa eval --fail-defined --format raw --input delete-rg-test.json --data opa-azure-policy.rego 'data.terraform.analysis.authz]'
+
+opa eval --fail-defined --format raw --input delete-rg-test.json --data tags-policy.rego 'data.terraform.common.deny[x]'

@@ -10,6 +10,7 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var (
 	tfsecMaxSeverity string
+	planFileName     string
 
 	rootCmd = &cobra.Command{
 		Use:     "Terraform Plan Validator",
