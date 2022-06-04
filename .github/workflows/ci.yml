@@ -39,13 +39,13 @@ jobs:
 
     - name: Build the Docker image
       run: |- 
-        docker build . --file Dockerfile --tag bradmccoydev/terraform-plan-validator:${{ github.sha }}
-        docker build . --file Dockerfile --tag bradmccoydev/terraform-plan-validator:latest
+        docker build . --file Dockerfile --tag bradmccoydev/tfval:${{ github.sha }}
+        docker build . --file Dockerfile --tag bradmccoydev/tfval:latest
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: 'bradmccoydev/terraform-plan-validator:${{ github.sha }}'
+        image-ref: 'bradmccoydev/tfval:${{ github.sha }}'
         format: 'table'
         exit-code: '1'
         ignore-unfixed: true
@@ -54,10 +54,10 @@ jobs:
       
     - name: Docker Push
       run: |-
-        docker push bradmccoydev/terraform-plan-validator:${{ github.sha }}
-        docker push bradmccoydev/terraform-plan-validator:latest
+        docker push bradmccoydev/tfval:${{ github.sha }}
+        docker push bradmccoydev/tfval:latest
 
-    - name: update tag for terraform-plan-validator image on deployment
+    - name: update tag for tfval image on deployment
       run: |-
         ls
         pwd
