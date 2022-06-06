@@ -52,22 +52,7 @@ jobs:
         vuln-type: 'os,library'
         severity: 'CRITICAL'
       
-    - name: Docker Push
-      run: |-
-        docker push bradmccoydev/tfval:${{ github.sha }}
-        docker push bradmccoydev/tfval:latest
-
-    - name: update tag for tfval image on deployment
-      run: |-
-        ls
-        pwd
-        # cd chart
-        export GITHUB_SHA=${{ github.sha }}
-        find "chart" -name "*.tmpl" -exec bash -c 'envsubst < $1 > chart/${{ env.ENVIRONMENT }}-values.yaml' _ {} \;
-        ls chart/
-        cat chart/${{ env.ENVIRONMENT }}-values.yaml   
-        git config --global user.email "github_actions@bradmccoy.io"
-        git config --global user.name "github_actions"
-        git add chart/${{ env.ENVIRONMENT }}-values.yaml
-        #git commit -m "🤖 update image tag with $GITHUB_SHA"
-        #git push
+    # - name: Docker Push
+    #   run: |-
+    #     docker push bradmccoydev/tfval:${{ github.sha }}
+    #     docker push bradmccoydev/tfval:latest

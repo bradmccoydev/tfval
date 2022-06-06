@@ -18,5 +18,9 @@ delete-rg-test.json
 test.tfplan
 .vscode
 terraform-plan-validator-amd64
+tfval-linux-amd64
 go.sum
 dist/
+
+test.json
+test.go

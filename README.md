@@ -25,8 +25,8 @@ This tool validates Terraform Plans it has been developed in golang as a wrapper
 
 ### Docker
 ```bash
-docker pull bradmccoydev/terraform-plan-validator:latest
-docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" --tfsecMaxSeverity "CRITICAL" --opaRegoQuery "data.terraform.analysis.authz"
+docker pull bradmccoydev/tfval:latest
+docker run -p 80:80 bradmccoydev/tfval:latest check --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" --tfsecMaxSeverity "CRITICAL" --opaRegoQuery "data.terraform.analysis.authz"
 ```
 
 ### Maintainers:
@@ -42,6 +42,6 @@ docker run -p 80:80 bradmccoydev/terraform-plan-validator:latest check --planFil
 
 Terraform Plan Validator is released under the Apache 2.0 license. See [LICENSE.txt](https://github.com/bradmccoydev/tfval/blob/main/LICENSE)
 
-opa eval --fail-defined --format raw --input delete-rg-test.json --data opa-azure-policy.rego 'data.terraform.analysis.authz]'
+opa eval --fail-defined --format raw --input policies/delete-rg-test.json --data policies/opa-azure-policy.rego 'data.terraform.analysis.authz'
 
-opa eval --fail-defined --format raw --input delete-rg-test.json --data tags-policy.rego 'data.terraform.common.deny[x]'
+opa eval --fail-defined --format raw --input policies/delete-rg-test.json --data policies/tags-policy.rego 'data.terraform.common.deny[x]'

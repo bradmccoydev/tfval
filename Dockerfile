@@ -2,15 +2,15 @@ FROM golang:alpine AS build
 
 RUN apk add --no-cache curl git alpine-sdk
 
-WORKDIR $GOPATH/src/github.com/bradmccoydev/terraform-plan-validator
+WORKDIR $GOPATH/src/github.com/bradmccoydev/tfval
 
-COPY go.mod go.sum $GOPATH/src/github.com/bradmccoydev/terraform-plan-validator/
+COPY go.mod go.sum $GOPATH/src/github.com/bradmccoydev/tfval/
 
 RUN go mod tidy
 
 COPY . .
 
-RUN go build -o /terraform-plan-validator
+RUN go build -o /tfval
 
 FROM alpine:latest
 
@@ -27,9 +27,9 @@ RUN curl -SL "https://releases.hashicorp.com/terraform/1.1.9/terraform_1.1.9_lin
 
 RUN curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
 
-WORKDIR /terraform-plan-validator
+WORKDIR /tfval
 
-COPY --from=build /terraform-plan-validator terraform-plan-validator
-COPY --from=build terraform-plan-validator /usr/bin/terraform-plan-validator
+COPY --from=build /tfval tfval
+COPY --from=build tfval /usr/bin/tfval
 
-ENTRYPOINT [ "./terraform-plan-validator" ]
+ENTRYPOINT [ "./tfval" ]

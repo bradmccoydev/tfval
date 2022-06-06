@@ -50,7 +50,6 @@ weights = {
     "azurerm_storage_container": lowrisk_resource_score,
 }
 
-
 # Consider exactly these resource types in calculations
 resource_types = {
     # CRITICAL RESOURCES
@@ -159,4 +158,30 @@ num_modifies[resource_type] = num {
     all := resources[resource_type]
     modifies := [res |  res:= all[_]; res.change.actions[_] == "update"]
     num := count(modifies)
+}
+
+deny[msg] {
+    #changeset := input.resource_changes[_]
+    
+    #provided_tags := {tag | changeset.change.after.actions[tag]}
+    # provided_tags := {tag | changeset.change.after.tags_all[tag]}
+    #provided_tags := {tag | changeset.change.name[tag]}
+    
+    # msg := sprintf("%s Resource %s action: %s %d", [
+    #     authz,
+    #     changeset.address,
+    #     changeset.change.actions,
+    #     score
+    # ])
+
+    msg := sprintf("{\"validation_passed\":%s,\"weights\":[%s], \"data\": %s },", [
+        score < max_acceptable_score,
+        weights,
+        input.resource_changes[_]
+    ])
+
+    # msg := sprintf("%s%s", [
+    #     split(weights, "},")
+    # ])
+
 }
