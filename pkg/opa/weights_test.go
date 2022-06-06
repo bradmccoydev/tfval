@@ -23,5 +23,3 @@ func TestWeights(t *testing.T) {
 		}
 	}
 }
-
-// { "service": "azurerm_virtual_network", "create": 0, "delete": 99, "modify": 99 }

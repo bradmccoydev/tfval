@@ -23,6 +23,8 @@ This tool validates Terraform Plans it has been developed in golang as a wrapper
 | sendreport | --fileName "delete-rg-test.json" --slackWebhook "*" --prNumber "1" --repoFullUrl "x" --tfsecMaxSeverity "MEDIUM"  |
 | cost | --fileName "policies/delete-rg-test.json" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.authz\"}]"  |
 
+ - /usr/bin/tfsec-analysis-terraform tfsec "$BITBUCKET_PR_ID" "$BITBUCKET_GIT_HTTP_ORIGIN" "tfsec-report.json" "$SLACK_WEBHOOK"
+ 
 ### Docker
 ```bash
 docker pull bradmccoydev/tfval:latest

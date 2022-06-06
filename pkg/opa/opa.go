@@ -17,6 +17,33 @@ type Weight struct {
 	Modify  int    `json:"modify"`
 }
 
+func RetrieveOpaPolicyResponse(plan []byte, policyLocation string, opaRegoQuery string) string {
+	r := rego.New(
+		rego.Query(opaRegoQuery),
+		rego.Load([]string{policyLocation}, nil))
+
+	ctx := context.Background()
+	query, err := r.PrepareForEval(ctx)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	var input interface{}
+
+	if err := json.Unmarshal(plan, &input); err != nil {
+		fmt.Println(err)
+	}
+
+	rs, err := query.Eval(ctx, rego.EvalInput(input))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	response := fmt.Sprintf("%v", rs[0].Expressions)
+
+	return strings.Replace(response, "},]", "}]", -1)
+}
+
 func CheckIfPlanPassesOpaPolicy(plan []byte, policyLocation string, opaRegoQuery string) bool {
 	r := rego.New(
 		rego.Query(opaRegoQuery),
@@ -38,6 +65,10 @@ func CheckIfPlanPassesOpaPolicy(plan []byte, policyLocation string, opaRegoQuery
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	fmt.Println(rs[0].Expressions)
+
+	fmt.Println(rs.Allowed())
 
 	return rs.Allowed()
 }
@@ -115,7 +146,6 @@ func GetWeightByServiceNameAndAction(weights []Weight, serviceName string, actio
 
 func GetStringInBetweenTwoString(str string, startS string, endS string) (result string) {
 	s := strings.Index(str, startS)
-	//fmt.Println(strconv.Itoa(s) + "**")
 	if s == -1 {
 		return result
 	}

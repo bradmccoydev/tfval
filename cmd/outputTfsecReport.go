@@ -12,7 +12,7 @@ import (
 
 var (
 	outputTfSecCmd = &cobra.Command{
-		Use:   "tfsec",
+		Use:   "tfsecreport",
 		Short: "get tfsec report",
 		Long:  `Outputs TfSec vulnerability report`,
 		Run: func(cmd *cobra.Command, args []string) {

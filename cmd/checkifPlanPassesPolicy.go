@@ -29,26 +29,24 @@ func init() {
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&planFileName, "planFileName", "p", planFileName, "Plan file Name")
 }
 
-func checkifPlanPassesPolicy(args []string) bool {
+func checkifPlanPassesPolicy(args []string) string {
 	plan, err := ioutil.ReadFile(planFileName)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	b := []byte(opaConfig)
-	var o model.OpaConfig
+	var config model.OpaConfig
 
-	if err := json.Unmarshal(b, &o); err != nil {
+	if err := json.Unmarshal(b, &config); err != nil {
 		fmt.Println(err)
 	}
 
-	passesOpa := true
+	passesOpa := ""
 
-	for _, policy := range o {
-		passesOpa = opa.CheckIfPlanPassesOpaPolicy(plan, policy.Location, policy.Query)
-		if passesOpa == false {
-			break
-		}
+	for _, policy := range config {
+		passesOpa = opa.RetrieveOpaPolicyResponse(plan, policy.Location, policy.Query)
+
 	}
 
 	return passesOpa

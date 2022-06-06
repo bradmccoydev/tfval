@@ -37,7 +37,7 @@ func init() {
 	rootCmd.AddCommand(sendValidationReportToSlackCmd)
 	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&prNumber, "prNumber", "p", prNumber, "Pull request number")
 	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&repoFullUrl, "repoFullUrl", "r", repoFullUrl, "Full repo URL")
-	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&fileName, "fileName", "f", fileName, "Filename of the terraform plan")
+	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&fileName, "fileName", "f", fileName, "Filename of the tfsec report")
 	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&slackWebhook, "slackWebhook", "s", slackWebhook, "The Slack Webhook")
 	sendValidationReportToSlackCmd.PersistentFlags().StringVarP(&tfsecMaxSeverity, "tfsecMaxSeverity", "t", tfsecMaxSeverity, "The TF Sec Max Severity")
 }
