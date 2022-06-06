@@ -7,15 +7,9 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/bradmccoydev/tfval/model"
 	"github.com/open-policy-agent/opa/rego"
 )
-
-type Weight struct {
-	Service string `json:"service"`
-	Create  int    `json:"create"`
-	Delete  int    `json:"delete"`
-	Modify  int    `json:"modify"`
-}
 
 func RetrieveOpaPolicyResponse(plan []byte, policyLocation string, opaRegoQuery string) string {
 	r := rego.New(
@@ -99,18 +93,18 @@ func GetOpaScore(plan []byte, policyLocation string) int {
 	return i
 }
 
-func GetWeights(payload string) []Weight {
+func GetWeights(payload string) []model.Weight {
 	s := GetStringInBetweenTwoString(payload, "weights\":[", "}]")
 	lines := strings.Split(s, "}")
 
-	var weights []Weight
+	var weights []model.Weight
 
 	for _, line := range lines {
 		formatted := fmt.Sprintf("{ \"service\": %s%s", strings.Replace(line, ": {", ", ", -1), " },")
 		formatted = strings.Replace(formatted, ": , \"", ": \"", -1)
 
 		if strings.Contains(formatted, "create") {
-			var weight Weight
+			var weight model.Weight
 			byte := []byte(strings.TrimRight(formatted, ","))
 
 			if err := json.Unmarshal(byte, &weight); err != nil {
@@ -124,7 +118,7 @@ func GetWeights(payload string) []Weight {
 	return weights
 }
 
-func GetWeightByServiceNameAndAction(weights []Weight, serviceName string, action string) int {
+func GetWeightByServiceNameAndAction(weights []model.Weight, serviceName string, action string) int {
 	actionWeight := 0
 
 	for _, weight := range weights {

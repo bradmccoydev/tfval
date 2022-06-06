@@ -3,7 +3,6 @@ module github.com/bradmccoydev/tfval
 go 1.17
 
 require (
-	github.com/cloudevents/sdk-go/v2 v2.6.1
 	github.com/hashicorp/go-version v1.4.0
 	github.com/hashicorp/hc-install v0.3.1
 	github.com/hashicorp/terraform-exec v0.15.0
