@@ -93,8 +93,24 @@ func GetWeights(payload string) []Weight {
 	return weights
 }
 
-func GetWeightByServiceName(weights []Weight, serviceName string) int {
-	return 1
+func GetWeightByServiceNameAndAction(weights []Weight, serviceName string, action string) int {
+	actionWeight := 0
+
+	for _, weight := range weights {
+		if weight.Service == serviceName {
+			switch action {
+			case "delete":
+				actionWeight = weight.Delete
+			case "create":
+				actionWeight = weight.Create
+			case "modify":
+				actionWeight = weight.Modify
+			default:
+				actionWeight = 0
+			}
+		}
+	}
+	return actionWeight
 }
 
 func GetStringInBetweenTwoString(str string, startS string, endS string) (result string) {

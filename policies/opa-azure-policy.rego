@@ -161,27 +161,11 @@ num_modifies[resource_type] = num {
 }
 
 deny[msg] {
-    #changeset := input.resource_changes[_]
-    
-    #provided_tags := {tag | changeset.change.after.actions[tag]}
-    # provided_tags := {tag | changeset.change.after.tags_all[tag]}
-    #provided_tags := {tag | changeset.change.name[tag]}
-    
-    # msg := sprintf("%s Resource %s action: %s %d", [
-    #     authz,
-    #     changeset.address,
-    #     changeset.change.actions,
-    #     score
-    # ])
-
-    msg := sprintf("{\"validation_passed\":%s,\"weights\":[%s], \"data\": %s },", [
+    msg := sprintf("{\"validation_passed\":%s,\"score\":%d,\"max_acceptable_score\":%d,\"weights\":[%s], \"data\": %s },", [
         score < max_acceptable_score,
+        score,
+        max_acceptable_score,
         weights,
         input.resource_changes[_]
     ])
-
-    # msg := sprintf("%s%s", [
-    #     split(weights, "},")
-    # ])
-
 }
