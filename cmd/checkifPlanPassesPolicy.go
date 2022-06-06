@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/bradmccoydev/terraform-plan-validator/model"
-	opa "github.com/bradmccoydev/terraform-plan-validator/pkg/opa"
+	"github.com/bradmccoydev/tfval/model"
+	opa "github.com/bradmccoydev/tfval/pkg/opa"
 
 	"github.com/spf13/cobra"
 )
@@ -42,12 +42,29 @@ func checkifPlanPassesPolicy(args []string) string {
 		fmt.Println(err)
 	}
 
-	passesOpa := ""
-
 	for _, policy := range config {
-		passesOpa = opa.RetrieveOpaPolicyResponse(plan, policy.Location, policy.Query)
+		policyResponse := opa.RetrieveOpaPolicyResponse(plan, policy.Location, policy.Query)
+
+		b := []byte(policyResponse)
+		var validations model.TfValidation
+
+		if err := json.Unmarshal(b, &validations); err != nil {
+			fmt.Println(err)
+		}
+
+		weights := opa.GetWeights(policyResponse)
+		response := fmt.Sprintf("%d", validations[0].Score)
+
+		for _, validation := range validations {
+			score := opa.GetWeightByServiceNameAndAction(weights, validation.Data.Type, validation.Data.Change.Actions[0])
+			response = response + fmt.Sprintf("%s %t %d ", validation.Data.Address, validation.ValidationPassed, score)
+
+			//fmt.Println()
+		}
+
+		fmt.Println(response)
 
 	}
 
-	return passesOpa
+	return ""
 }

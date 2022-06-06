@@ -1,6 +1,6 @@
 package main
 
-import "github.com/bradmccoydev/terraform-plan-validator/cmd"
+import "github.com/bradmccoydev/tfval/cmd"
 
 func main() {
 	cmd.Execute()

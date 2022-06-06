@@ -1,8 +1,8 @@
 resource "aws_s3_bucket" "b" {
-  bucket = "terraform-plan-validator"
+  bucket = "tfval"
 
   tags = {
-    Name        = "terraform-plan-validator"
+    Name        = "tfval"
     Environment = "Dev"
   }
 }

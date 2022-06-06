@@ -9,7 +9,7 @@ import (
 
 func CreateCloudEvent(payload string) string {
 	event := cloudevents.NewEvent()
-	event.SetSource("https://github.com/bradmccoydev/terraform-plan-validator")
+	event.SetSource("https://github.com/bradmccoydev/tfval")
 	event.SetType("example.type")
 	event.SetData(cloudevents.ApplicationJSON, map[string]string{"pass": payload})
 	bytes, err := json.Marshal(event)

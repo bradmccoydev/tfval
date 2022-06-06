@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	tfsec "github.com/bradmccoydev/terraform-plan-validator/pkg/tfsec"
+	tfsec "github.com/bradmccoydev/tfval/pkg/tfsec"
 
 	"github.com/spf13/cobra"
 )

@@ -12,17 +12,17 @@ pipelines:
               - tfsec-report.json
       - step:
           name: send slack message if vulnerabilities
-          image: bradmccoydev/terraform-plan-validator:148d17793a90096c024e43669255b785de76f8a8
+          image: bradmccoydev/tfval:148d17793a90096c024e43669255b785de76f8a8
           script:
             - /usr/bin/tfsec-analysis-terraform sendreport "$BITBUCKET_REPO_SLUG $BITBUCKET_PR_ID" "$BITBUCKET_GIT_HTTP_ORIGIN" "tfsec-report.json" "$SLACK_WEBHOOK"
       - step:
           name: Check if passes validation
           script:
-            - curl -sfLo terraform-plan-validator-amd64 "https://github.com/bradmccoydev/terraform-plan-validator/releases/download/v1.0.0/terraform-plan-validator-amd64"
-            - curl -sfLo app.env "https://github.com/bradmccoydev/terraform-plan-validator/releases/download/v1.0.0/app.env"
-            - curl -sfLo opa-azure-policy.rego "https://github.com/bradmccoydev/terraform-plan-validator/releases/download/v1.0.0/opa-azure-policy.rego"
-            - chmod a+x ./terraform-plan-validator-amd64
+            - curl -sfLo tfval-amd64 "https://github.com/bradmccoydev/tfval/releases/download/v1.0.0/tfval-amd64"
+            - curl -sfLo app.env "https://github.com/bradmccoydev/tfval/releases/download/v1.0.0/app.env"
+            - curl -sfLo opa-azure-policy.rego "https://github.com/bradmccoydev/tfval/releases/download/v1.0.0/opa-azure-policy.rego"
+            - chmod a+x ./tfval-amd64
             - uname -mrs
             - cat /proc/version
-            - ./terraform-plan-validator-amd64 check "tfsec-report.json" "azure"
+            - ./tfval-amd64 check "tfsec-report.json" "azure"
             - ls

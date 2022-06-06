@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/bradmccoydev/terraform-plan-validator/model"
+	"github.com/bradmccoydev/tfval/model"
 	"github.com/spf13/cobra"
 )
 

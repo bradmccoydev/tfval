@@ -1,6 +1,6 @@
 package model
 
-type tfValidation []struct {
+type TfValidation []struct {
 	ValidationPassed   bool `json:"validation_passed"`
 	Score              int  `json:"score"`
 	MaxAcceptableScore int  `json:"max_acceptable_score"`

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/bradmccoydev/terraform-plan-validator/model"
+	"github.com/bradmccoydev/tfval/model"
 )
 
 func ProduceVulnerabilityReport(plan []byte) model.Vulnerabilities {

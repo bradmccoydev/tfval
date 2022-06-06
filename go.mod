@@ -1,4 +1,4 @@
-module github.com/bradmccoydev/terraform-plan-validator
+module github.com/bradmccoydev/tfval
 
 go 1.17
 

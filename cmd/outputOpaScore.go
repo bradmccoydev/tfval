@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	opa "github.com/bradmccoydev/terraform-plan-validator/pkg/opa"
+	opa "github.com/bradmccoydev/tfval/pkg/opa"
 
 	"github.com/spf13/cobra"
 )
