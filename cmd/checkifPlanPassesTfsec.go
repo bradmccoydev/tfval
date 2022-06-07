@@ -27,14 +27,11 @@ func init() {
 	checkifPlanPassesTfSecCmd.PersistentFlags().StringVarP(&tfsecMaxSeverity, "tfsecMaxSeverity", "s", tfsecMaxSeverity, "The TF Sec Max Severity")
 }
 
-func checkifPlanPassesTfSec(args []string) bool {
+func checkifPlanPassesTfSec(args []string) string {
 	report, err := ioutil.ReadFile(tfsecReportLocation)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	passesTfsec := false
-	passesTfsec = tfsec.CheckIfPlanPassesTfPolicy(report, tfsecMaxSeverity)
-
-	return passesTfsec
+	return tfsec.CheckIfPlanPassesTfPolicy(report, tfsecMaxSeverity)
 }

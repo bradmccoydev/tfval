@@ -7,6 +7,7 @@ import (
 
 	"github.com/bradmccoydev/tfval/model"
 	opa "github.com/bradmccoydev/tfval/pkg/opa"
+	tfsec "github.com/bradmccoydev/tfval/pkg/tfsec"
 
 	"github.com/spf13/cobra"
 )
@@ -25,14 +26,25 @@ var (
 
 func init() {
 	rootCmd.AddCommand(checkifPlanPassesPolicyCmd)
-	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&opaConfig, "opaConfig", "o", opaConfig, "OPA Config")
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&planFileName, "planFileName", "p", planFileName, "Plan file Name")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&opaConfig, "opaConfig", "o", opaConfig, "OPA Config")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&tfsecReportLocation, "tfsecReportLocation", "p", tfsecReportLocation, "Tfsec report location")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&tfsecMaxSeverity, "tfsecMaxSeverity", "p", tfsecMaxSeverity, "Tfsec Max Severity")
 }
 
 func checkifPlanPassesPolicy(args []string) string {
-	plan, err := ioutil.ReadFile(planFileName)
+	report, err := ioutil.ReadFile(tfsecReportLocation)
 	if err != nil {
 		fmt.Println(err)
+		return "{\"error\": \"Error reading TfSec Report\"}"
+	}
+
+	tfResponse := tfsec.CheckIfPlanPassesTfPolicy(report, tfsecMaxSeverity)
+
+	tfPlan, err := ioutil.ReadFile(planFileName)
+	if err != nil {
+		fmt.Println(err)
+		return "{\"error\": \"Error reading Tfplan\"}"
 	}
 
 	b := []byte(opaConfig)
@@ -40,31 +52,33 @@ func checkifPlanPassesPolicy(args []string) string {
 
 	if err := json.Unmarshal(b, &config); err != nil {
 		fmt.Println(err)
+		return "{\"error\": \"Error reading OpaConfig\"}"
 	}
 
+	opaResponse := ""
+
 	for _, policy := range config {
-		policyResponse := opa.RetrieveOpaPolicyResponse(plan, policy.Location, policy.Query)
+		policyResponse := opa.RetrieveOpaPolicyResponse(tfPlan, policy.Location, policy.Query)
 
 		b := []byte(policyResponse)
 		var validations model.TfValidation
 
 		if err := json.Unmarshal(b, &validations); err != nil {
 			fmt.Println(err)
+			return "{\"error\": \"Error reading Tf Validations\"}"
 		}
 
-		weights := opa.GetWeights(policyResponse)
-		response := fmt.Sprintf("%d", validations[0].Score)
+		weights := opa.GetTfWeights(policyResponse)
+		opaResponse = fmt.Sprintf("%d", validations[0].Score)
 
 		for _, validation := range validations {
-			score := opa.GetWeightByServiceNameAndAction(weights, validation.Data.Type, validation.Data.Change.Actions[0])
-			response = response + fmt.Sprintf("%s %t %d ", validation.Data.Address, validation.ValidationPassed, score)
-
-			//fmt.Println()
+			score := opa.GetTfWeightByServiceNameAndAction(weights, validation.Data.Type, validation.Data.Change.Actions[0])
+			opaResponse = fmt.Sprintf("%s %s %t %d ", opaResponse, validation.Data.Address, validation.ValidationPassed, score)
 		}
 
-		fmt.Println(response)
+		fmt.Println(tfResponse)
 
 	}
 
-	return ""
+	return fmt.Sprintf("{\"tfsec\": \"%s\", ", tfResponse)
 }

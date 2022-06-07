@@ -18,7 +18,7 @@ func TestGetOpaPolicy(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		score := GetOpaScore([]byte(tc.plan), tc.policyLocation)
+		score := GetOpaScore([]byte(tc.plan), tc.policyLocation, "data.terraform.analysis.score")
 		fmt.Println(tc.name, score)
 		result := CheckIfPlanPassesOpaPolicy([]byte(tc.plan), tc.policyLocation, tc.query)
 		fmt.Println(tc.name, result)

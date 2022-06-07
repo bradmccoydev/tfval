@@ -14,7 +14,7 @@ func ProduceVulnerabilityReport(plan []byte) model.Vulnerabilities {
 	return vulnerabilities
 }
 
-func CheckIfPlanPassesTfPolicy(plan []byte, tfsecMaxSeverity string) bool {
+func CheckIfPlanPassesTfPolicy(plan []byte, tfsecMaxSeverity string) string {
 	vulnerabilities := ProduceVulnerabilityReport(plan)
 	passesPolicy := true
 
@@ -23,11 +23,14 @@ func CheckIfPlanPassesTfPolicy(plan []byte, tfsecMaxSeverity string) bool {
 		tfsecMaxSeverity = "LOW"
 	}
 
+	vulnerabilitiesMessage := ""
+
 	if tfsecMaxSeverity == "LOW" {
 		if len(vulnerabilities.Results) > 0 {
 			for _, element := range vulnerabilities.Results {
 				if element.Severity == "LOW" || element.Severity == "MEDIUM" || element.Severity == "CRITICAL" {
 					passesPolicy = false
+					vulnerabilitiesMessage = fmt.Sprintf("%s %s", vulnerabilitiesMessage, element.Description)
 				}
 			}
 		}
@@ -38,6 +41,7 @@ func CheckIfPlanPassesTfPolicy(plan []byte, tfsecMaxSeverity string) bool {
 			for _, element := range vulnerabilities.Results {
 				if element.Severity == "MEDIUM" || element.Severity == "CRITICAL" {
 					passesPolicy = false
+					vulnerabilitiesMessage = fmt.Sprintf("%s %s", vulnerabilitiesMessage, element.Description)
 				}
 			}
 		}
@@ -48,12 +52,19 @@ func CheckIfPlanPassesTfPolicy(plan []byte, tfsecMaxSeverity string) bool {
 			for _, element := range vulnerabilities.Results {
 				if element.Severity == "CRITICAL" {
 					passesPolicy = false
+					vulnerabilitiesMessage = fmt.Sprintf("%s %s ", vulnerabilitiesMessage, element.Description)
 				}
 			}
 		}
 	}
 
-	return passesPolicy
+	if vulnerabilitiesMessage == "" {
+		vulnerabilitiesMessage = "No vulnerabilities found :)"
+	}
+
+	message := fmt.Sprintf("{\"tfsec_pass\": %t, \"tfsec_max_severity\": \"%s\", \"tfsec_vulnerabilities\": \"%s\"}", passesPolicy, tfsecMaxSeverity, vulnerabilitiesMessage)
+
+	return message
 }
 
 func OutputTfsecReport(tfsecJsonOutput []byte) model.Vulnerabilities {

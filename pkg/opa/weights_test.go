@@ -17,7 +17,7 @@ func TestWeights(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		weights := GetWeights(tc.payload)
+		weights := GetTfWeights(tc.payload)
 		for _, weight := range weights {
 			fmt.Println(weight.Service)
 		}

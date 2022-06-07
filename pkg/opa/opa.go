@@ -12,88 +12,55 @@ import (
 )
 
 func RetrieveOpaPolicyResponse(plan []byte, policyLocation string, opaRegoQuery string) string {
-	r := rego.New(
-		rego.Query(opaRegoQuery),
-		rego.Load([]string{policyLocation}, nil))
-
-	ctx := context.Background()
-	query, err := r.PrepareForEval(ctx)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	var input interface{}
-
-	if err := json.Unmarshal(plan, &input); err != nil {
-		fmt.Println(err)
-	}
-
-	rs, err := query.Eval(ctx, rego.EvalInput(input))
-	if err != nil {
-		fmt.Println(err)
-	}
-
+	rs := GetOpaResultSet(plan, policyLocation, opaRegoQuery)
 	response := fmt.Sprintf("%v", rs[0].Expressions)
 
 	return strings.Replace(response, "},]", "}]", -1)
 }
 
 func CheckIfPlanPassesOpaPolicy(plan []byte, policyLocation string, opaRegoQuery string) bool {
-	r := rego.New(
-		rego.Query(opaRegoQuery),
-		rego.Load([]string{policyLocation}, nil))
+	rs := GetOpaResultSet(plan, policyLocation, opaRegoQuery)
 
-	ctx := context.Background()
-	query, err := r.PrepareForEval(ctx)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	var input interface{}
-
-	if err := json.Unmarshal(plan, &input); err != nil {
-		fmt.Println(err)
-	}
-
-	rs, err := query.Eval(ctx, rego.EvalInput(input))
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println(rs[0].Expressions)
-
-	fmt.Println(rs.Allowed())
+	// fmt.Println(rs[0].Expressions)
+	// fmt.Println(rs.Allowed())
 
 	return rs.Allowed()
 }
 
-func GetOpaScore(plan []byte, policyLocation string) int {
-	r := rego.New(
-		rego.Query("data.terraform.analysis.score"),
-		rego.Load([]string{policyLocation}, nil))
+func GetOpaScore(plan []byte, policyLocation string, opaRegoQuery string) int {
+	rs := GetOpaResultSet(plan, policyLocation, opaRegoQuery)
 
-	ctx := context.Background()
-	query, err := r.PrepareForEval(ctx)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	var input interface{}
-
-	if err := json.Unmarshal(plan, &input); err != nil {
-		fmt.Println(err)
-	}
-
-	rs, err := query.Eval(ctx, rego.EvalInput(input))
-	if err != nil {
-		fmt.Println(err)
-	}
 	s := fmt.Sprint(rs[0].Expressions[0].Value)
 	i, _ := strconv.Atoi(s)
 	return i
 }
 
-func GetWeights(payload string) []model.Weight {
+func GetOpaResultSet(plan []byte, policyLocation string, opaRegoQuery string) rego.ResultSet {
+	ctx := context.Background()
+	var input interface{}
+
+	r := rego.New(
+		rego.Query(opaRegoQuery),
+		rego.Load([]string{policyLocation}, nil))
+
+	query, err := r.PrepareForEval(ctx)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	if err := json.Unmarshal(plan, &input); err != nil {
+		fmt.Println(err)
+	}
+
+	rs, err := query.Eval(ctx, rego.EvalInput(input))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return rs
+}
+
+func GetTfWeights(payload string) []model.Weight {
 	s := GetStringInBetweenTwoString(payload, "weights\":[", "}]")
 	lines := strings.Split(s, "}")
 
@@ -118,7 +85,7 @@ func GetWeights(payload string) []model.Weight {
 	return weights
 }
 
-func GetWeightByServiceNameAndAction(weights []model.Weight, serviceName string, action string) int {
+func GetTfWeightByServiceNameAndAction(weights []model.Weight, serviceName string, action string) int {
 	actionWeight := 0
 
 	for _, weight := range weights {

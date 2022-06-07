@@ -36,6 +36,6 @@ func outputOpaScore(args []string) int {
 		fmt.Println(err)
 	}
 
-	opaScore := opa.GetOpaScore(plan, opaPolicyLocation)
+	opaScore := opa.GetOpaScore(plan, opaPolicyLocation, "data.terraform.analysis.score")
 	return opaScore
 }
