@@ -1,13 +1,12 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"strings"
 
-	"github.com/bradmccoydev/tfval/model"
 	opa "github.com/bradmccoydev/tfval/pkg/opa"
 	tfsec "github.com/bradmccoydev/tfval/pkg/tfsec"
+	"github.com/bradmccoydev/tfval/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -33,52 +32,20 @@ func init() {
 }
 
 func checkifPlanPassesPolicy(args []string) string {
-	report, err := ioutil.ReadFile(tfsecReportLocation)
-	if err != nil {
-		fmt.Println(err)
-		return "{\"error\": \"Error reading TfSec Report\"}"
-	}
+	tfReport := utils.ReadFile(tfsecReportLocation)
+	tfPlan := utils.ReadFile(planFileName)
 
-	tfResponse := tfsec.CheckIfPlanPassesTfPolicy(report, tfsecMaxSeverity)
-
-	tfPlan, err := ioutil.ReadFile(planFileName)
-	if err != nil {
-		fmt.Println(err)
-		return "{\"error\": \"Error reading Tfplan\"}"
-	}
-
-	b := []byte(opaConfig)
-	var config model.OpaConfig
-
-	if err := json.Unmarshal(b, &config); err != nil {
-		fmt.Println(err)
-		return "{\"error\": \"Error reading OpaConfig\"}"
-	}
-
+	tfResponse := tfsec.CheckIfPlanPassesTfPolicy(tfReport, tfsecMaxSeverity)
 	opaResponse := ""
 
+	config := opa.GetOpaConfig(opaConfig)
+
 	for _, policy := range config {
-		policyResponse := opa.RetrieveOpaPolicyResponse(tfPlan, policy.Location, policy.Query)
-
-		b := []byte(policyResponse)
-		var validations model.TfValidation
-
-		if err := json.Unmarshal(b, &validations); err != nil {
-			fmt.Println(err)
-			return "{\"error\": \"Error reading Tf Validations\"}"
-		}
-
-		weights := opa.GetTfWeights(policyResponse)
-		opaResponse = fmt.Sprintf("%d", validations[0].Score)
-
-		for _, validation := range validations {
-			score := opa.GetTfWeightByServiceNameAndAction(weights, validation.Data.Type, validation.Data.Change.Actions[0])
-			opaResponse = fmt.Sprintf("%s %s %t %d ", opaResponse, validation.Data.Address, validation.ValidationPassed, score)
-		}
-
-		fmt.Println(tfResponse)
-
+		policyResponse := opa.GetDefaultOpaResponse(tfPlan, policy.Location, policy.Query)
+		opaResponse = fmt.Sprintf("%s%s,", opaResponse, policyResponse)
 	}
 
-	return fmt.Sprintf("{\"tfsec\": \"%s\", ", tfResponse)
+	opaResponse = strings.TrimRight(opaResponse, ",")
+
+	return fmt.Sprintf("{\"tfsec\": \"%s\", \"opa\": [%s] ", tfResponse, opaResponse)
 }

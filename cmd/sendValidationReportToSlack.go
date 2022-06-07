@@ -3,12 +3,12 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
 
 	"github.com/bradmccoydev/tfval/model"
+	"github.com/bradmccoydev/tfval/pkg/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -43,10 +43,7 @@ func init() {
 }
 
 func sendValidationReportToSlack(args []string) error {
-	report, err := ioutil.ReadFile(fileName)
-	if err != nil {
-		fmt.Println(err)
-	}
+	report := utils.ReadFile(fileName)
 
 	var vulnerabilities model.Vulnerabilities
 	json.Unmarshal([]byte(report), &vulnerabilities)

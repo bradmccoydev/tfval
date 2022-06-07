@@ -18,6 +18,31 @@ func RetrieveOpaPolicyResponse(plan []byte, policyLocation string, opaRegoQuery 
 	return strings.Replace(response, "},]", "}]", -1)
 }
 
+func GetDefaultOpaResponse(plan []byte, policyLocation string, opaRegoQuery string) string {
+	rs := GetOpaResultSet(plan, policyLocation, opaRegoQuery)
+
+	opaResponse := fmt.Sprintf("%v", rs[0].Expressions)
+	opaResponse = strings.Replace(opaResponse, "},]", "}]", -1)
+
+	b := []byte(opaResponse)
+	var validations model.TfValidation
+
+	if err := json.Unmarshal(b, &validations); err != nil {
+		fmt.Println(err)
+	}
+
+	weights := GetTfWeights(opaResponse)
+	scores := ""
+
+	for _, validation := range validations {
+		score := GetTfWeightByServiceNameAndAction(weights, validation.Data.Type, validation.Data.Change.Actions[0])
+		scores = fmt.Sprintf("%s {\"opa_resource_name\":\"%s\",\"opa_score\":%d},", scores, validation.Data.Address, score)
+	}
+
+	scores = strings.TrimRight(scores, ",")
+	return fmt.Sprintf("{\"opa_validation_passed\":%t,\"opa_total_score\":%d,\"opa_scores\":[%s]}", validations[0].ValidationPassed, validations[0].Score, scores)
+}
+
 func CheckIfPlanPassesOpaPolicy(plan []byte, policyLocation string, opaRegoQuery string) bool {
 	rs := GetOpaResultSet(plan, policyLocation, opaRegoQuery)
 
@@ -33,6 +58,17 @@ func GetOpaScore(plan []byte, policyLocation string, opaRegoQuery string) int {
 	s := fmt.Sprint(rs[0].Expressions[0].Value)
 	i, _ := strconv.Atoi(s)
 	return i
+}
+
+func GetOpaConfig(opaConfig string) model.OpaConfig {
+	b := []byte(opaConfig)
+	var config model.OpaConfig
+
+	if err := json.Unmarshal(b, &config); err != nil {
+		fmt.Println(err)
+	}
+
+	return config
 }
 
 func GetOpaResultSet(plan []byte, policyLocation string, opaRegoQuery string) rego.ResultSet {

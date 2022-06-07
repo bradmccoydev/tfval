@@ -24,5 +24,9 @@ func TestGetOpaPolicy(t *testing.T) {
 		fmt.Println(tc.name, result)
 		response := RetrieveOpaPolicyResponse([]byte(tc.plan), tc.policyLocation, tc.query)
 		fmt.Println(response)
+		if tc.query == "data.terraform.analysis.deny[x]" {
+			report := GetDefaultOpaResponse([]byte(tc.plan), tc.policyLocation, tc.query)
+			fmt.Println(report)
+		}
 	}
 }

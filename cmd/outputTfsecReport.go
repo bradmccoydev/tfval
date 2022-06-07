@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
 
 	"github.com/bradmccoydev/tfval/model"
 	tfsec "github.com/bradmccoydev/tfval/pkg/tfsec"
+	"github.com/bradmccoydev/tfval/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -28,10 +28,7 @@ func init() {
 }
 
 func outputTfsec(args []string) model.Vulnerabilities {
-	plan, err := ioutil.ReadFile(planFileName)
-	if err != nil {
-		fmt.Println(err)
-	}
+	plan := utils.ReadFile(fileName)
 
 	tfsec := tfsec.OutputTfsecReport(plan)
 	println(fmt.Sprint(tfsec))

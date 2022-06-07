@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
 
 	opa "github.com/bradmccoydev/tfval/pkg/opa"
+	"github.com/bradmccoydev/tfval/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -31,10 +31,7 @@ func init() {
 }
 
 func outputOpaScore(args []string) int {
-	plan, err := ioutil.ReadFile(opaScorePlanFileName)
-	if err != nil {
-		fmt.Println(err)
-	}
+	plan := utils.ReadFile(opaScorePlanFileName)
 
 	opaScore := opa.GetOpaScore(plan, opaPolicyLocation, "data.terraform.analysis.score")
 	return opaScore

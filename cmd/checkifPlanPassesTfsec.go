@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
 
 	tfsec "github.com/bradmccoydev/tfval/pkg/tfsec"
+	"github.com/bradmccoydev/tfval/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -28,10 +28,7 @@ func init() {
 }
 
 func checkifPlanPassesTfSec(args []string) string {
-	report, err := ioutil.ReadFile(tfsecReportLocation)
-	if err != nil {
-		fmt.Println(err)
-	}
+	report := utils.ReadFile(tfsecReportLocation)
 
 	return tfsec.CheckIfPlanPassesTfPolicy(report, tfsecMaxSeverity)
 }
