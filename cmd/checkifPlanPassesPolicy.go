@@ -60,7 +60,7 @@ func checkifPlanPassesPolicy(args []string) string {
 	}
 
 	tfValPass := false
-	if strings.Contains(tfSecResponse, "tfsec_pass\": true") && strings.Contains(opaResponse, "opa_validation_passed\":false") {
+	if strings.Contains(tfSecResponse, "tfsec_pass\": true") && strings.Contains(opaResponse, "opa_validation_passed\":true") && strings.Contains(infracostResponse, "infracost_pass\":true") {
 		tfValPass = true
 	}
 

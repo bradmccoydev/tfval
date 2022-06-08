@@ -115,3 +115,13 @@ num_modifies[resource_type] = num {
     modifies := [res |  res:= all[_]; res.change.actions[_] == "update"]
     num := count(modifies)
 }
+
+deny[msg] {
+    msg := sprintf("{\"validation_passed\":%s,\"score\":%d,\"max_acceptable_score\":%d,\"weights\":[%s], \"data\": %s },", [
+        score < max_acceptable_score,
+        score,
+        max_acceptable_score,
+        weights,
+        input.resource_changes[_]
+    ])
+}

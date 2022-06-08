@@ -1,4 +1,4 @@
-![passing](https://github.com/bradmccoydev/tfval/actions/workflows/ci.yml/badge.svg) [![Go Report Card](https://goreportcard.com/badge/github.com/bradmccoydev/tfval)](https://goreportcard.com/report/github.com/bradmccoydev/tfval) ![GitHub](https://img.shields.io/github/license/bradmccoydev/tfval) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/bradmccoydev/tfval)
+![passing](https://github.com/bradmccoydev/tfval/actions/workflows/ci.yml/badge.svg) ![GitHub](https://img.shields.io/github/license/bradmccoydev/tfval) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/bradmccoydev/tfval)
 
 # TFVAL
 This tool validates Terraform Plans it has been developed in golang as a wrapper around TFSEC and OPA to provide guardrails when deploying in CI/CD pipelines. You can find the latest release at the release page
