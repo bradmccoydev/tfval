@@ -12,18 +12,18 @@ This tool validates Terraform Plans it has been developed in golang as a wrapper
 | opascore | Gets the OPA score report |
 | tfsec | Outputs TfSec vulnerability report |
 | sendreport | Sends Terraform validation Report to slack |
-| costs | Matches Infracost and Budget |
+| cost | Matches Infracost and Budget |
 
 ### Commands Parameters
 
 | Command | Parameters |
 | --- | --- |
 | tfsec | --tfsecReport "delete-rg-test.json" --tfsecMaxSeverity "CRITICAL" |
-| check | --planFileName "policies/delete-rg-test.json" --tfsecReportLocation "pkg/tfsec/mock.json" --tfsecMaxSeverity "CRITICAL" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.deny[x]\"}]" |
+| check | --repo "https://github.com/basiqio/terraform-template" --commitSha "1234" --developer "bradmccoydev" --planFileName "policies/delete-rg-test.json" --tfsecReportLocation "pkg/tfsec/mock.json" --tfsecMaxSeverity "CRITICAL" --infracostMonthlyBudget "2000" --infracostReportLocation "pkg/infracost/mock.json" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.deny[x]\"}]" |
 | checkopa | --planFileName "policies/delete-rg-test.json" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.authz\"}]" |
 | opascore | --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" |
 | sendreport | --fileName "delete-rg-test.json" --slackWebhook "*" --prNumber "1" --repoFullUrl "x" --tfsecMaxSeverity "MEDIUM"  |
-| cost | --fileName "policies/delete-rg-test.json" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.authz\"}]"  |
+| cost | --infracostMonthlyBudget "2000" --infracostReportLocation "pkg/infracost/mock.json"|
 
  - /usr/bin/tfsec-analysis-terraform tfsec "$BITBUCKET_PR_ID" "$BITBUCKET_GIT_HTTP_ORIGIN" "tfsec-report.json" "$SLACK_WEBHOOK"
  

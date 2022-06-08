@@ -14,6 +14,7 @@ func CheckIfSpendIsWithinBudget(infracostReport []byte, monthlyBudget float64) s
 
 	monthlyCost, err := strconv.ParseFloat(breakdown.TotalMonthlyCost, 6)
 	if err != nil {
+		fmt.Println("Error Converting Infracost TotalMontlyCost to Float")
 		fmt.Println(err)
 	}
 
@@ -22,6 +23,5 @@ func CheckIfSpendIsWithinBudget(infracostReport []byte, monthlyBudget float64) s
 		infracostPass = true
 	}
 
-	return fmt.Sprintf("{\"infracost_pass\":%t,\"infracost_monthly_budget\":%f,\"infracost_total_monthly_cost\":%f", infracostPass, monthlyBudget, monthlyCost)
-
+	return fmt.Sprintf("{\"infracost_pass\":%t,\"infracost_monthly_budget\":%f,\"infracost_total_monthly_cost\":%f}", infracostPass, monthlyBudget, monthlyCost)
 }

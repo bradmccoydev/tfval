@@ -1,10 +1,11 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
+	"strconv"
 
-	"github.com/bradmccoydev/tfval/model"
+	"github.com/bradmccoydev/tfval/pkg/infracost"
+	"github.com/bradmccoydev/tfval/pkg/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -22,22 +23,19 @@ var (
 
 func init() {
 	rootCmd.AddCommand(checkSpendIsWithinBudgetCmd)
-	checkSpendIsWithinBudgetCmd.PersistentFlags().StringVarP(&opaConfig, "opaConfig", "p", opaConfig, "OPA Config")
+	checkSpendIsWithinBudgetCmd.PersistentFlags().StringVarP(&infracostMonthlyBudget, "infracostMonthlyBudget", "b", infracostMonthlyBudget, "Monthly Budget")
+	checkSpendIsWithinBudgetCmd.PersistentFlags().StringVarP(&infracostReportLocation, "infracostReportLocation", "i", infracostReportLocation, "Infracost Report Location")
 }
 
 //infracost breakdown --format json --terraform-var-file /deployment/dev.tfvars --path .
-func checkSpendIsWithinBudget(args []string) bool {
-	b := []byte(opaConfig)
-	var o model.OpaConfig
+func checkSpendIsWithinBudget(args []string) string {
+	infracostReport := utils.ReadFile(infracostReportLocation)
 
-	if err := json.Unmarshal(b, &o); err != nil {
+	monthlyBudget, err := strconv.ParseFloat(infracostMonthlyBudget, 6)
+	if err != nil {
 		fmt.Println(err)
 	}
 
-	for _, element := range o {
-		fmt.Println(element.Location)
-		fmt.Println(element.Query)
-	}
-
-	return false
+	infracostResponse := infracost.CheckIfSpendIsWithinBudget([]byte(infracostReport), monthlyBudget)
+	return infracostResponse
 }

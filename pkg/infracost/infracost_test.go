@@ -7,7 +7,7 @@ import (
 	"github.com/bradmccoydev/tfval/pkg/utils"
 )
 
-func TestGetTfScore(t *testing.T) {
+func TestInfracost(t *testing.T) {
 	testCases := []struct {
 		monthlyBudget           float64
 		infracostReportLocation string

@@ -9,10 +9,15 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var (
-	tfsecReportLocation string
-	tfsecMaxSeverity    string
-	planFileName        string
-	opaConfig           string
+	repo                    string //GITHUB_REPOSITORY
+	commitSha               string //GITHUB_SHA
+	developer               string //GITHUB_ACTOR
+	planFileName            string
+	tfsecReportLocation     string
+	tfsecMaxSeverity        string
+	opaConfig               string
+	infracostMonthlyBudget  string
+	infracostReportLocation string
 
 	rootCmd = &cobra.Command{
 		Use:     "tfval",

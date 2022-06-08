@@ -2,8 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
+	"github.com/bradmccoydev/tfval/pkg/infracost"
 	opa "github.com/bradmccoydev/tfval/pkg/opa"
 	tfsec "github.com/bradmccoydev/tfval/pkg/tfsec"
 	"github.com/bradmccoydev/tfval/pkg/utils"
@@ -29,13 +31,25 @@ func init() {
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&opaConfig, "opaConfig", "o", opaConfig, "OPA Config")
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&tfsecReportLocation, "tfsecReportLocation", "r", tfsecReportLocation, "Tfsec report location")
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&tfsecMaxSeverity, "tfsecMaxSeverity", "s", tfsecMaxSeverity, "Tfsec Max Severity")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&infracostMonthlyBudget, "infracostMonthlyBudget", "b", infracostMonthlyBudget, "Monthly Budget")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&infracostReportLocation, "infracostReportLocation", "i", infracostReportLocation, "Infracost Report Location")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&repo, "repo", "e", repo, "Git Repository")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&commitSha, "commitSha", "m", commitSha, "Git Commit Sha")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&developer, "developer", "d", developer, "Developer")
 }
 
 func checkifPlanPassesPolicy(args []string) string {
-	tfReport := utils.ReadFile(tfsecReportLocation)
 	tfPlan := utils.ReadFile(planFileName)
+	tfSecReport := utils.ReadFile(tfsecReportLocation)
+	infracostReport := utils.ReadFile(infracostReportLocation)
 
-	tfSecResponse := tfsec.CheckIfPlanPassesTfPolicy(tfReport, tfsecMaxSeverity)
+	monthlyBudget, err := strconv.ParseFloat(infracostMonthlyBudget, 6)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	infracostResponse := infracost.CheckIfSpendIsWithinBudget([]byte(infracostReport), monthlyBudget)
+	tfSecResponse := tfsec.CheckIfPlanPassesTfPolicy(tfSecReport, tfsecMaxSeverity)
 	opaResponse := ""
 
 	config := opa.GetOpaConfig(opaConfig)
@@ -51,5 +65,5 @@ func checkifPlanPassesPolicy(args []string) string {
 	}
 
 	opaResponse = strings.TrimRight(opaResponse, ",")
-	return fmt.Sprintf("{\"tfval_pass\":%t,\"tfsec\":%s,\"opa\":%s}", tfValPass, tfSecResponse, opaResponse)
+	return fmt.Sprintf("{\"tfval_pass\":%t,\"repo\":\"%s\",\"commit_sha\":\"%s\",\"developer\":\"%s\",\"tfsec\":%s,\"opa\":%s,\"infracost\":%s}", tfValPass, repo, commitSha, developer, tfSecResponse, opaResponse, infracostResponse)
 }
