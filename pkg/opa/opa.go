@@ -36,11 +36,11 @@ func GetDefaultOpaResponse(plan []byte, policyLocation string, opaRegoQuery stri
 
 	for _, validation := range validations {
 		score := GetTfWeightByServiceNameAndAction(weights, validation.Data.Type, validation.Data.Change.Actions[0])
-		scores = fmt.Sprintf("%s {\"opa_resource_name\":\"%s\",\"opa_score\":%d},", scores, validation.Data.Address, score)
+		scores = fmt.Sprintf("%s{\"opa_resource_name\":\"%s\",\"opa_score\":%d},", scores, validation.Data.Address, score)
 	}
 
 	scores = strings.TrimRight(scores, ",")
-	return fmt.Sprintf("{\"opa_validation_passed\":%t,\"opa_total_score\":%d,\"opa_scores\":[%s]}", validations[0].ValidationPassed, validations[0].Score, scores)
+	return fmt.Sprintf("{\"opa_pass\":%t,\"opa_total_score\":%d,\"opa_max_acceptable_score\":%d,\"opa_scores\":[%s]}", validations[0].ValidationPassed, validations[0].Score, validations[0].MaxAcceptableScore, scores)
 }
 
 func CheckIfPlanPassesOpaPolicy(plan []byte, policyLocation string, opaRegoQuery string) bool {
@@ -110,10 +110,7 @@ func GetTfWeights(payload string) []model.Weight {
 			var weight model.Weight
 			byte := []byte(strings.TrimRight(formatted, ","))
 
-			if err := json.Unmarshal(byte, &weight); err != nil {
-				fmt.Println(err)
-			}
-
+			json.Unmarshal(byte, &weight)
 			weights = append(weights, weight)
 		}
 	}

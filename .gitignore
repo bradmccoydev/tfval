@@ -14,7 +14,6 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
-delete-rg-test.json
 test.tfplan
 .vscode
 tfval-amd64
@@ -23,4 +22,3 @@ go.sum
 dist/
 
 test.json
-test.go

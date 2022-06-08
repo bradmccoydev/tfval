@@ -7,15 +7,15 @@ import (
 	"github.com/bradmccoydev/tfval/model"
 )
 
-func ProduceVulnerabilityReport(plan []byte) model.Vulnerabilities {
+func ProduceVulnerabilityReport(tfsecReport []byte) model.Vulnerabilities {
 	var vulnerabilities model.Vulnerabilities
-	json.Unmarshal(plan, &vulnerabilities)
+	json.Unmarshal(tfsecReport, &vulnerabilities)
 
 	return vulnerabilities
 }
 
-func CheckIfPlanPassesTfPolicy(plan []byte, tfsecMaxSeverity string) string {
-	vulnerabilities := ProduceVulnerabilityReport(plan)
+func CheckIfPlanPassesTfPolicy(tfReport []byte, tfsecMaxSeverity string) string {
+	vulnerabilities := ProduceVulnerabilityReport(tfReport)
 	passesPolicy := true
 
 	if IsInvalidCategory(tfsecMaxSeverity) {

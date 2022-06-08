@@ -25,6 +25,7 @@ func init() {
 	checkSpendIsWithinBudgetCmd.PersistentFlags().StringVarP(&opaConfig, "opaConfig", "p", opaConfig, "OPA Config")
 }
 
+//infracost breakdown --format json --terraform-var-file /deployment/dev.tfvars --path .
 func checkSpendIsWithinBudget(args []string) bool {
 	b := []byte(opaConfig)
 	var o model.OpaConfig

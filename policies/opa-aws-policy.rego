@@ -28,7 +28,6 @@ weights = {
     "aws_eks_node_group": lowrisk_resource_score,
 }
 
-
 # Consider exactly these resource types in calculations
 resource_types = {
     # CRITICAL RESOURCES

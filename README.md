@@ -7,7 +7,8 @@ This tool validates Terraform Plans it has been developed in golang as a wrapper
 
 | Command | Parameters |
 | --- | --- |
-| check | Check if the plan passes Policy |
+| check | Check if the plan passes OPA and TFSEC Policy |
+| checkopa | Check if the plan passes OPA Policy |
 | opascore | Gets the OPA score report |
 | tfsec | Outputs TfSec vulnerability report |
 | sendreport | Sends Terraform validation Report to slack |
@@ -18,7 +19,8 @@ This tool validates Terraform Plans it has been developed in golang as a wrapper
 | Command | Parameters |
 | --- | --- |
 | tfsec | --tfsecReport "delete-rg-test.json" --tfsecMaxSeverity "CRITICAL" |
-| check | --planFileName "policies/delete-rg-test.json" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.authz\"}]" |
+| check | --planFileName "policies/delete-rg-test.json" --tfsecReportLocation "pkg/tfsec/mock.json" --tfsecMaxSeverity "CRITICAL" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.deny[x]\"}]" |
+| checkopa | --planFileName "policies/delete-rg-test.json" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.authz\"}]" |
 | opascore | --planFileName "delete-rg-test.json" --policyLocation "opa-aws-policy.rego" |
 | sendreport | --fileName "delete-rg-test.json" --slackWebhook "*" --prNumber "1" --repoFullUrl "x" --tfsecMaxSeverity "MEDIUM"  |
 | cost | --fileName "policies/delete-rg-test.json" --opaConfig "[{\"location\":\"policies/opa-azure-policy.rego\",\"query\":\"data.terraform.analysis.authz\"}]"  |

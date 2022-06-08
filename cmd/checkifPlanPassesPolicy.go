@@ -27,15 +27,15 @@ func init() {
 	rootCmd.AddCommand(checkifPlanPassesPolicyCmd)
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&planFileName, "planFileName", "p", planFileName, "Plan file Name")
 	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&opaConfig, "opaConfig", "o", opaConfig, "OPA Config")
-	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&tfsecReportLocation, "tfsecReportLocation", "p", tfsecReportLocation, "Tfsec report location")
-	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&tfsecMaxSeverity, "tfsecMaxSeverity", "p", tfsecMaxSeverity, "Tfsec Max Severity")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&tfsecReportLocation, "tfsecReportLocation", "r", tfsecReportLocation, "Tfsec report location")
+	checkifPlanPassesPolicyCmd.PersistentFlags().StringVarP(&tfsecMaxSeverity, "tfsecMaxSeverity", "s", tfsecMaxSeverity, "Tfsec Max Severity")
 }
 
 func checkifPlanPassesPolicy(args []string) string {
 	tfReport := utils.ReadFile(tfsecReportLocation)
 	tfPlan := utils.ReadFile(planFileName)
 
-	tfResponse := tfsec.CheckIfPlanPassesTfPolicy(tfReport, tfsecMaxSeverity)
+	tfSecResponse := tfsec.CheckIfPlanPassesTfPolicy(tfReport, tfsecMaxSeverity)
 	opaResponse := ""
 
 	config := opa.GetOpaConfig(opaConfig)
@@ -45,7 +45,11 @@ func checkifPlanPassesPolicy(args []string) string {
 		opaResponse = fmt.Sprintf("%s%s,", opaResponse, policyResponse)
 	}
 
-	opaResponse = strings.TrimRight(opaResponse, ",")
+	tfValPass := false
+	if strings.Contains(tfSecResponse, "tfsec_pass\": true") && strings.Contains(opaResponse, "opa_validation_passed\":false") {
+		tfValPass = true
+	}
 
-	return fmt.Sprintf("{\"tfsec\": \"%s\", \"opa\": [%s] ", tfResponse, opaResponse)
+	opaResponse = strings.TrimRight(opaResponse, ",")
+	return fmt.Sprintf("{\"tfval_pass\":%t,\"tfsec\":%s,\"opa\":%s}", tfValPass, tfSecResponse, opaResponse)
 }

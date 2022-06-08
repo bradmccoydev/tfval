@@ -1,0 +1,281 @@
+{
+    "version": "0.2",
+    "currency": "USD",
+    "projects": [
+      {
+        "name": "basiqio/payments/terraform",
+        "metadata": {
+          "path": "terraform",
+          "type": "terraform_dir",
+          "vcsRepoUrl": "git@github.com-basiq:basiqio/payments.git",
+          "vcsSubPath": "terraform"
+        },
+        "pastBreakdown": {
+          "resources": [],
+          "totalHourlyCost": "0",
+          "totalMonthlyCost": "0"
+        },
+        "breakdown": {
+          "resources": [
+            {
+              "name": "module.payments_dynamodb_table.aws_appautoscaling_target.dynamodb_table_read_scalable_target[0]",
+              "metadata": {
+                "calls": [
+                  {
+                    "blockName": "module.payments_dynamodb_table",
+                    "filename": "terraform/dynamodb.tf"
+                  },
+                  {
+                    "blockName": "aws_appautoscaling_target.dynamodb_table_read_scalable_target",
+                    "filename": "terraform/.infracost/terraform_modules/payments_dynamodb_table/aws/provisioned-dynamodb-table-with-asg/main.tf"
+                  }
+                ],
+                "filename": "terraform/.infracost/terraform_modules/payments_dynamodb_table/aws/provisioned-dynamodb-table-with-asg/main.tf"
+              },
+              "hourlyCost": null,
+              "monthlyCost": null
+            },
+            {
+              "name": "module.payments_dynamodb_table.aws_appautoscaling_target.dynamodb_table_write_scalable_target[0]",
+              "metadata": {
+                "calls": [
+                  {
+                    "blockName": "module.payments_dynamodb_table",
+                    "filename": "terraform/dynamodb.tf"
+                  },
+                  {
+                    "blockName": "aws_appautoscaling_target.dynamodb_table_write_scalable_target",
+                    "filename": "terraform/.infracost/terraform_modules/payments_dynamodb_table/aws/provisioned-dynamodb-table-with-asg/main.tf"
+                  }
+                ],
+                "filename": "terraform/.infracost/terraform_modules/payments_dynamodb_table/aws/provisioned-dynamodb-table-with-asg/main.tf"
+              },
+              "hourlyCost": null,
+              "monthlyCost": null
+            },
+            {
+              "name": "module.payments_dynamodb_table.aws_dynamodb_table.provisioned_dynamodb_table",
+              "tags": {
+                "Criticality": "normal",
+                "Environment": "dev",
+                "Name": "Payments",
+                "Owner": "payments",
+                "SecurityPosture": "private",
+                "SourcePath": "https://github.com/basiqio/payments/blob/master/terraform/dynamodb.tf",
+                "Terraform": "true"
+              },
+              "metadata": {
+                "calls": [
+                  {
+                    "blockName": "module.payments_dynamodb_table",
+                    "filename": "terraform/dynamodb.tf"
+                  },
+                  {
+                    "blockName": "aws_dynamodb_table.provisioned_dynamodb_table",
+                    "filename": "terraform/.infracost/terraform_modules/payments_dynamodb_table/aws/provisioned-dynamodb-table-with-asg/main.tf"
+                  }
+                ],
+                "filename": "terraform/.infracost/terraform_modules/payments_dynamodb_table/aws/provisioned-dynamodb-table-with-asg/main.tf"
+              },
+              "hourlyCost": "0.000888",
+              "monthlyCost": "0.64824",
+              "costComponents": [
+                {
+                  "name": "Write capacity unit (WCU, autoscaling)",
+                  "unit": "WCU",
+                  "hourlyQuantity": "0.0013698630136986",
+                  "monthlyQuantity": "1",
+                  "price": "0.5402",
+                  "hourlyCost": "0.00074",
+                  "monthlyCost": "0.5402"
+                },
+                {
+                  "name": "Read capacity unit (RCU, autoscaling)",
+                  "unit": "RCU",
+                  "hourlyQuantity": "0.0013698630136986",
+                  "monthlyQuantity": "1",
+                  "price": "0.10804",
+                  "hourlyCost": "0.000148",
+                  "monthlyCost": "0.10804"
+                },
+                {
+                  "name": "Data storage",
+                  "unit": "GB",
+                  "hourlyQuantity": null,
+                  "monthlyQuantity": null,
+                  "price": "0.285",
+                  "hourlyCost": null,
+                  "monthlyCost": null
+                },
+                {
+                  "name": "Point-In-Time Recovery (PITR) backup storage",
+                  "unit": "GB",
+                  "hourlyQuantity": null,
+                  "monthlyQuantity": null,
+                  "price": "0.228",
+                  "hourlyCost": null,
+                  "monthlyCost": null
+                },
+                {
+                  "name": "On-demand backup storage",
+                  "unit": "GB",
+                  "hourlyQuantity": null,
+                  "monthlyQuantity": null,
+                  "price": "0.114",
+                  "hourlyCost": null,
+                  "monthlyCost": null
+                },
+                {
+                  "name": "Table data restored",
+                  "unit": "GB",
+                  "hourlyQuantity": null,
+                  "monthlyQuantity": null,
+                  "price": "0.171",
+                  "hourlyCost": null,
+                  "monthlyCost": null
+                },
+                {
+                  "name": "Streams read request unit (sRRU)",
+                  "unit": "sRRUs",
+                  "hourlyQuantity": null,
+                  "monthlyQuantity": null,
+                  "price": "0.000000228",
+                  "hourlyCost": null,
+                  "monthlyCost": null
+                }
+              ]
+            }
+          ],
+          "totalHourlyCost": "0.000888",
+          "totalMonthlyCost": "0.64824"
+        },
+        "diff": {
+          "resources": [
+            {
+              "name": "module.payments_dynamodb_table.aws_dynamodb_table.provisioned_dynamodb_table",
+              "tags": {
+                "Criticality": "normal",
+                "Environment": "dev",
+                "Name": "Payments",
+                "Owner": "payments",
+                "SecurityPosture": "private",
+                "SourcePath": "https://github.com/basiqio/payments/blob/master/terraform/dynamodb.tf",
+                "Terraform": "true"
+              },
+              "metadata": {},
+              "hourlyCost": "0.000888",
+              "monthlyCost": "0.64824",
+              "costComponents": [
+                {
+                  "name": "Write capacity unit (WCU, autoscaling)",
+                  "unit": "WCU",
+                  "hourlyQuantity": "0.0013698630136986",
+                  "monthlyQuantity": "1",
+                  "price": "0.5402",
+                  "hourlyCost": "0.00074",
+                  "monthlyCost": "0.5402"
+                },
+                {
+                  "name": "Read capacity unit (RCU, autoscaling)",
+                  "unit": "RCU",
+                  "hourlyQuantity": "0.0013698630136986",
+                  "monthlyQuantity": "1",
+                  "price": "0.10804",
+                  "hourlyCost": "0.000148",
+                  "monthlyCost": "0.10804"
+                },
+                {
+                  "name": "Data storage",
+                  "unit": "GB",
+                  "hourlyQuantity": "0",
+                  "monthlyQuantity": "0",
+                  "price": "0.285",
+                  "hourlyCost": "0",
+                  "monthlyCost": "0"
+                },
+                {
+                  "name": "Point-In-Time Recovery (PITR) backup storage",
+                  "unit": "GB",
+                  "hourlyQuantity": "0",
+                  "monthlyQuantity": "0",
+                  "price": "0.228",
+                  "hourlyCost": "0",
+                  "monthlyCost": "0"
+                },
+                {
+                  "name": "On-demand backup storage",
+                  "unit": "GB",
+                  "hourlyQuantity": "0",
+                  "monthlyQuantity": "0",
+                  "price": "0.114",
+                  "hourlyCost": "0",
+                  "monthlyCost": "0"
+                },
+                {
+                  "name": "Table data restored",
+                  "unit": "GB",
+                  "hourlyQuantity": "0",
+                  "monthlyQuantity": "0",
+                  "price": "0.171",
+                  "hourlyCost": "0",
+                  "monthlyCost": "0"
+                },
+                {
+                  "name": "Streams read request unit (sRRU)",
+                  "unit": "sRRUs",
+                  "hourlyQuantity": "0",
+                  "monthlyQuantity": "0",
+                  "price": "0.000000228",
+                  "hourlyCost": "0",
+                  "monthlyCost": "0"
+                }
+              ]
+            }
+          ],
+          "totalHourlyCost": "0.000888",
+          "totalMonthlyCost": "0.64824"
+        },
+        "summary": {
+          "totalDetectedResources": 49,
+          "totalSupportedResources": 3,
+          "totalUnsupportedResources": 9,
+          "totalUsageBasedResources": 1,
+          "totalNoPriceResources": 37,
+          "unsupportedResourceCounts": {
+            "aws_api_gateway_integration_response": 9
+          },
+          "noPriceResourceCounts": {
+            "aws_api_gateway_deployment": 1,
+            "aws_api_gateway_integration": 9,
+            "aws_api_gateway_method": 9,
+            "aws_api_gateway_method_response": 9,
+            "aws_api_gateway_resource": 9
+          }
+        }
+      }
+    ],
+    "totalHourlyCost": "0.000888",
+    "totalMonthlyCost": "0.64824",
+    "pastTotalHourlyCost": "0",
+    "pastTotalMonthlyCost": "0",
+    "diffTotalHourlyCost": "0.000888",
+    "diffTotalMonthlyCost": "0.64824",
+    "timeGenerated": "2022-06-08T11:15:38.711508+10:00",
+    "summary": {
+      "totalDetectedResources": 49,
+      "totalSupportedResources": 3,
+      "totalUnsupportedResources": 9,
+      "totalUsageBasedResources": 1,
+      "totalNoPriceResources": 37,
+      "unsupportedResourceCounts": {
+        "aws_api_gateway_integration_response": 9
+      },
+      "noPriceResourceCounts": {
+        "aws_api_gateway_deployment": 1,
+        "aws_api_gateway_integration": 9,
+        "aws_api_gateway_method": 9,
+        "aws_api_gateway_method_response": 9,
+        "aws_api_gateway_resource": 9
+      }
+    }
+  }
