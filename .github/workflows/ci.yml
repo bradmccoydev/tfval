@@ -11,9 +11,11 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      tg: ${{ steps.filter.outputs.tg }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Go
       uses: actions/setup-go@v2
