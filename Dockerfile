@@ -16,11 +16,11 @@ FROM alpine:latest
 
 RUN apk add --no-cache curl git alpine-sdk
 
-RUN curl -SL "https://github.com/aquasecurity/tfsec/releases/download/v1.20.0/tfsec-linux-amd64" --output tfsec && \    
+RUN curl -SL "https://github.com/aquasecurity/tfsec/releases/download/v1.23.3/tfsec-linux-amd64" --output tfsec && \    
     chmod +x tfsec && \
     mv tfsec /usr/local/bin
 
-RUN curl -SL "https://releases.hashicorp.com/terraform/1.1.9/terraform_1.1.9_linux_amd64.zip" --output terraform.zip && \
+RUN curl -SL "https://releases.hashicorp.com/terraform/1.2.2/terraform_1.2.2_linux_amd64.zip" --output terraform.zip && \
     unzip "terraform.zip" && \
     mv terraform /usr/local/bin && \
     rm terraform.zip
