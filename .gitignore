@@ -18,7 +18,7 @@ test.tfplan
 .vscode
 tfval-amd64
 tfval-linux-amd64
-go.sum
 dist/
+build/
 
 test.json
