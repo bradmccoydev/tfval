@@ -31,12 +31,16 @@ func GetDefaultOpaResponse(plan []byte, policyLocation string, opaRegoQuery stri
 		fmt.Println(err)
 	}
 
-	weights := GetTfWeights(opaResponse)
 	scores := ""
+	weights := GetTfWeights(opaResponse)
 
 	for _, validation := range validations {
-		score := GetTfWeightByServiceNameAndAction(weights, validation.Data.Type, validation.Data.Change.Actions[0])
-		scores = fmt.Sprintf("%s{\"opa_resource_name\":\"%s\",\"opa_score\":%d},", scores, validation.Data.Address, score)
+		if weights != nil {
+			score := GetTfWeightByServiceNameAndAction(weights, validation.Data.Type, validation.Data.Change.Actions[0])
+			scores = fmt.Sprintf("%s{\"opa_resource_name\":\"%s\",\"opa_score\":%d},", scores, validation.Data.Address, score)
+		} else {
+			scores = fmt.Sprintf("%s{\"opa_resource_name\":\"%s\",\"opa_score\":%d},", scores, validation.Data.Address, validation.Score)
+		}
 	}
 
 	scores = strings.TrimRight(scores, ",")
@@ -97,6 +101,10 @@ func GetOpaResultSet(plan []byte, policyLocation string, opaRegoQuery string) re
 }
 
 func GetTfWeights(payload string) []model.Weight {
+	if !strings.Contains(payload, "weights") {
+		return nil
+	}
+
 	s := GetStringInBetweenTwoString(payload, "weights\":[", "}]")
 	lines := strings.Split(s, "}")
 

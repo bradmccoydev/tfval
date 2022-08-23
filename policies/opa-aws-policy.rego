@@ -18,6 +18,7 @@ weights = {
     "aws_vpc": critical_resource_score,
     "aws_subnet": critical_resource_score,
     "aws_eks_cluster": critical_resource_score,
+    "aws_s3_bucket": critical_resource_score,
 
     # IMPORTANT RESOURCES - Minor modifications acceptable. Deletion prohibited.
     "aws_security_group": important_resource_score,

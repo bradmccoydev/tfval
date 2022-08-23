@@ -1,3 +1,9 @@
+#  Local .terraform directories
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
