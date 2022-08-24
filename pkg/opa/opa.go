@@ -20,6 +20,9 @@ func RetrieveOpaPolicyResponse(plan []byte, policyLocation string, opaRegoQuery 
 
 func GetDefaultOpaResponse(plan []byte, policyLocation string, opaRegoQuery string) string {
 	rs := GetOpaResultSet(plan, policyLocation, opaRegoQuery)
+	if rs == nil {
+		return "{\"opa_pass\":true,\"opa_total_score\":0,\"opa_max_acceptable_score\":0,\"opa_scores\":[]}"
+	}
 
 	opaResponse := fmt.Sprintf("%v", rs[0].Expressions)
 	opaResponse = strings.Replace(opaResponse, "},]", "}]", -1)

@@ -7,10 +7,9 @@ type TfValidation []struct {
 	Data               struct {
 		Address string `json:"address"`
 		Change  struct {
-			Actions        []string    `json:"actions"`
-			After          interface{} `json:"after"`
-			AfterSensitive bool        `json:"after_sensitive"`
-			AfterUnknown   struct {
+			Actions      []string    `json:"actions"`
+			After        interface{} `json:"after"`
+			AfterUnknown struct {
 			} `json:"after_unknown"`
 			Before struct {
 				ID       string `json:"id"`
@@ -20,10 +19,6 @@ type TfValidation []struct {
 				} `json:"tags"`
 				Timeouts interface{} `json:"timeouts"`
 			} `json:"before"`
-			BeforeSensitive struct {
-				Tags struct {
-				} `json:"tags"`
-			} `json:"before_sensitive"`
 		} `json:"change"`
 		Mode         string `json:"mode"`
 		Name         string `json:"name"`

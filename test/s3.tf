@@ -13,8 +13,10 @@ resource "aws_s3_bucket" "b" {
   bucket = "tfval"
 
   tags = {
-    Name        = "tfval"
+    Owner       = "bradmccoy"
+    SourcePath  = "https://github.com/bradmccoydev/tfval"
     Environment = "Dev"
+    Provisioner = "Terraform"
   }
 }
 

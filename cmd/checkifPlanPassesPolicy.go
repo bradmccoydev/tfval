@@ -51,7 +51,6 @@ func checkifPlanPassesPolicy(args []string) string {
 	infracostResponse := infracost.CheckIfSpendIsWithinBudget([]byte(infracostReport), monthlyBudget)
 	tfSecResponse := tfsec.CheckIfPlanPassesTfPolicy(tfSecReport, tfsecMaxSeverity)
 	opaResponse := ""
-
 	config := opa.GetOpaConfig(opaConfig)
 
 	for _, policy := range config {

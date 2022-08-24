@@ -23,9 +23,9 @@ deny[msg] {
 
 	#array_contains(resources_types, changeset.type)
 
-	#count(missing_tags) > 0
+	count(missing_tags) > 0
 
-	msg := sprintf("{\"validation_passed\":%s,\"score\":%d,\"max_acceptable_score\":%d,\"data\":{\"address\": %s}},", [
+	msg := sprintf("{\"validation_passed\":%s,\"score\":%d,\"max_acceptable_score\":%d,\"data\":{\"address\": \"%s\"}},", [
 		count(missing_tags) <= max_acceptable_score,
 		count(missing_tags),
 		max_acceptable_score,
