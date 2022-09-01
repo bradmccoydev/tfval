@@ -1,0 +1,41 @@
+name: Lint
+
+on:
+  pull_request:
+    types:
+      - "opened"
+      - "synchronize"
+    paths-ignore:
+      - "README.md"
+      - ".gitignore"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GOPATH: /home/runner/go
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+    - name: Linting check
+      run: make lint
+
+
+  # Run integration tests
+  test-integration:
+    runs-on: ubuntu-latest
+    env:
+      GOPATH: /home/runner/go
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+    - name: Linting check
+      run: make lint
