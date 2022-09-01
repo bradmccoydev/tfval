@@ -1,4 +1,4 @@
-name: Lint
+name: CI
 
 on:
   pull_request:
@@ -22,6 +22,8 @@ jobs:
       with:
         go-version: 1.19
     - name: Linting check
+      run: make fmt
+    - name: Linting check
       run: make lint
 
 
@@ -37,5 +39,5 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.19
-    - name: Linting check
-      run: make lint
+    - name: Test
+      run: make test
