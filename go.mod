@@ -1,6 +1,6 @@
 module github.com/bradmccoydev/tfval
 
-go 1.17
+go 1.20
 
 require (
 	github.com/open-policy-agent/opa v0.50.2
